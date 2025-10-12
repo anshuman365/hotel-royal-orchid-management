@@ -28,12 +28,18 @@ instance/
 
 # Environment
 .env
+.env.local
+.env.production
+*.env
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+# But keep the template
+!.env.example
 
 # IDE
 .vscode/
