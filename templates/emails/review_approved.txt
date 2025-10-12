@@ -1,0 +1,36 @@
+REVIEW PUBLISHED - HOTEL ROYAL ORCHID
+======================================
+
+Dear {{ review.user.name }},
+
+Thank you for sharing your exquisite experience with us. Your thoughtful review of "{{ review.room.name }}" has been published and is now inspiring future guests.
+
+YOUR PUBLISHED REVIEW:
+----------------------
+Room: {{ review.room.name }}
+Rating: {{ review.rating }}/5 stars
+{% if review.title %}
+Title: {{ review.title }}
+{% endif %}
+Comment: {{ review.comment }}
+
+Status: ✓ Verified Stay • Published
+
+Your insights help us maintain our gold standard of luxury and assist discerning travelers in making informed decisions.
+
+PLAN YOUR NEXT STAY:
+Explore our luxury collection: {{ url_for('main.rooms', _external=True) }}
+
+Thank you for being a valued guest at Hotel Royal Orchid. We look forward to welcoming you back for another exceptional experience.
+
+With warm regards,
+The Hotel Royal Orchid Team
+
+---
+HOTEL ROYAL ORCHID
+📍 Luxury Street, Golden District
+📞 +91 98765 43210
+✉️ guestrelations@royalorchid.com
+🌐 {{ url_for('main.index', _external=True) }}
+
+© 2025 Hotel Royal Orchid. Luxury Redefined Since 1995.

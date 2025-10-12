@@ -1,0 +1,45 @@
+PAYMENT FAILED - HOTEL ROYAL ORCHID
+===================================
+
+Dear {{ booking.user.name }},
+
+We were unable to process your payment for booking #{{ booking.id }}. Your reservation is currently on hold pending payment.
+
+BOOKING DETAILS:
+---------------
+Room: {{ booking.room.name }}
+Amount: ₹{{ "%.2f"|format(booking.final_amount) }}
+Check-in: {{ booking.check_in.strftime('%B %d, %Y') }}
+Check-out: {{ booking.check_out.strftime('%B %d, %Y') }}
+
+POSSIBLE REASONS:
+----------------
+• Insufficient funds in your account
+• Incorrect card details entered
+• Bank declined the transaction
+• Technical issue with payment gateway
+
+WHAT TO DO NEXT:
+---------------
+1. RETRY PAYMENT: Use this link to try again:
+   {{ url_for('booking.process_payment', booking_id=booking.id, _external=True) }}
+
+2. CHECK YOUR ACCOUNT: Ensure sufficient funds and correct card details
+
+3. CONTACT YOUR BANK: Sometimes banks block unusual transactions
+
+4. CONTACT US: Our team is ready to assist you at +91 98765 43210
+
+IMPORTANT NOTE:
+--------------
+Your room will be held for 24 hours pending payment. After this period, the room may be released to other guests.
+
+IMMEDIATE ASSISTANCE:
+--------------------
+Phone: +91 98765 43210
+Email: reservations@royalorchid.com
+
+We're here to help you complete your booking!
+
+Best regards,
+The Hotel Royal Orchid Team

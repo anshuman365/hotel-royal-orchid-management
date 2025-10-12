@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}Photo Gallery - Hotel Royal Orchid{% endblock %}
+
+{% block extra_css %}
+<style>
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem;
+        cursor: pointer;
+    }
+    .gallery-item img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    .gallery-item:hover img {
+        transform: scale(1.05);
+    }
+    .gallery-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        color: white;
+        padding: 1rem;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+    .gallery-item:hover .gallery-overlay {
+        transform: translateY(0);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gray-900 py-20">
+    <div class="max-w-7xl mx-auto px-4 text-center text-white">
+        <h1 class="text-5xl font-serif font-bold mb-6" data-aos="fade-up">Photo Gallery</h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            Explore the luxury and beauty of Hotel Royal Orchid through our photos
+        </p>
+    </div>
+</section>
+
+<!-- Gallery Filters -->
+<section class="py-8 bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-wrap gap-4 justify-center">
+            <button class="filter-btn active px-6 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition duration-300" data-filter="all">
+                All Photos
+            </button>
+            <button class="filter-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-amber-600 hover:text-white transition duration-300" data-filter="rooms">
+                Rooms & Suites
+            </button>
+            <button class="filter-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-amber-600 hover:text-white transition duration-300" data-filter="dining">
+                Dining
+            </button>
+            <button class="filter-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-amber-600 hover:text-white transition duration-300" data-filter="amenities">
+                Amenities
+            </button>
+            <button class="filter-btn px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-amber-600 hover:text-white transition duration-300" data-filter="events">
+                Events
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Grid -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="gallery-grid">
+            <!-- Room Images -->
+            <div class="gallery-item" data-category="rooms">
+                <img src="{{ url_for('static', filename='images/gallery/room-1.jpg') }}" alt="Luxury Room">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Deluxe Room</h3>
+                    <p class="text-sm">Spacious and elegantly designed</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="rooms">
+                <img src="{{ url_for('static', filename='images/gallery/room-2.jpg') }}" alt="Executive Suite">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Executive Suite</h3>
+                    <p class="text-sm">Luxury living with panoramic views</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="rooms">
+                <img src="{{ url_for('static', filename='images/gallery/room-3.jpg') }}" alt="Presidential Suite">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Presidential Suite</h3>
+                    <p class="text-sm">Ultimate luxury experience</p>
+                </div>
+            </div>
+
+            <!-- Dining Images -->
+            <div class="gallery-item" data-category="dining">
+                <img src="{{ url_for('static', filename='images/gallery/restaurant-1.jpg') }}" alt="Main Restaurant">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Orchid Restaurant</h3>
+                    <p class="text-sm">Fine dining experience</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="dining">
+                <img src="{{ url_for('static', filename='images/gallery/restaurant-2.jpg') }}" alt="Poolside Dining">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Poolside Grill</h3>
+                    <p class="text-sm">Al fresco dining by the pool</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="dining">
+                <img src="{{ url_for('static', filename='images/gallery/bar.jpg') }}" alt="Luxury Bar">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Royal Bar</h3>
+                    <p class="text-sm">Crafted cocktails and fine spirits</p>
+                </div>
+            </div>
+
+            <!-- Amenities Images -->
+            <div class="gallery-item" data-category="amenities">
+                <img src="{{ url_for('static', filename='images/gallery/pool.jpg') }}" alt="Swimming Pool">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Infinity Pool</h3>
+                    <p class="text-sm">Stunning outdoor swimming pool</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="amenities">
+                <img src="{{ url_for('static', filename='images/gallery/spa.jpg') }}" alt="Spa">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Royal Spa</h3>
+                    <p class="text-sm">Relaxation and rejuvenation</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="amenities">
+                <img src="{{ url_for('static', filename='images/gallery/gym.jpg') }}" alt="Fitness Center">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Fitness Center</h3>
+                    <p class="text-sm">State-of-the-art equipment</p>
+                </div>
+            </div>
+
+            <!-- Events Images -->
+            <div class="gallery-item" data-category="events">
+                <img src="{{ url_for('static', filename='images/gallery/wedding.jpg') }}" alt="Wedding Event">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Wedding Celebrations</h3>
+                    <p class="text-sm">Elegant wedding venues</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="events">
+                <img src="{{ url_for('static', filename='images/gallery/conference.jpg') }}" alt="Conference">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Conference Facilities</h3>
+                    <p class="text-sm">Professional meeting spaces</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="events">
+                <img src="{{ url_for('static', filename='images/gallery/banquet.jpg') }}" alt="Banquet Hall">
+                <div class="gallery-overlay">
+                    <h3 class="font-semibold">Grand Ballroom</h3>
+                    <p class="text-sm">Luxurious event spaces</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-amber-600">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-serif font-bold text-white mb-6">Experience Our Luxury Firsthand</h2>
+        <p class="text-xl text-amber-100 mb-8">Book your stay and create unforgettable memories at Hotel Royal Orchid</p>
+        <a href="{{ url_for('main.rooms') }}" class="bg-white text-amber-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition duration-300 inline-block">
+            Book Your Stay
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active', 'bg-amber-600', 'text-white'));
+                filterButtons.forEach(btn => btn.classList.add('bg-gray-200', 'text-gray-700'));
+                
+                // Add active class to clicked button
+                this.classList.add('active', 'bg-amber-600', 'text-white');
+                this.classList.remove('bg-gray-200', 'text-gray-700');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

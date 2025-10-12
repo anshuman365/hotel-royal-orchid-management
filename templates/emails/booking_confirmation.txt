@@ -1,0 +1,53 @@
+BOOKING CONFIRMATION - HOTEL ROYAL ORCHID
+==========================================
+
+Dear {{ booking.user.name }},
+
+Thank you for choosing Hotel Royal Orchid! Your booking has been confirmed and we're preparing for your arrival.
+
+BOOKING DETAILS:
+----------------
+Booking ID: #{{ booking.id }}
+Status: CONFIRMED
+
+Check-in: {{ booking.check_in.strftime('%A, %B %d, %Y') }} (From 2:00 PM)
+Check-out: {{ booking.check_out.strftime('%A, %B %d, %Y') }} (Until 12:00 PM)
+Duration: {{ booking.total_nights }} night{% if booking.total_nights > 1 %}s{% endif %}
+
+Room: {{ booking.room.name }} ({{ booking.room.room_type }})
+Guests: {{ booking.adults }} Adult{% if booking.adults > 1 %}s{% endif %}{% if booking.children > 0 %}, {{ booking.children }} Child{% if booking.children > 1 %}ren{% endif %}{% endif %}
+
+PAYMENT SUMMARY:
+---------------
+Room Charges: ₹{{ "%.2f"|format(booking.base_amount) }}
+Taxes & Fees: ₹{{ "%.2f"|format(booking.tax_amount) }}
+{% if booking.discount_amount > 0 %}Discount: -₹{{ "%.2f"|format(booking.discount_amount) }}{% endif %}
+TOTAL PAID: ₹{{ "%.2f"|format(booking.final_amount) }}
+
+SPECIAL REQUESTS:
+{{ booking.special_requests or "No special requests noted." }}
+
+BEFORE YOU ARRIVE:
+-----------------
+✓ Bring valid government-issued ID for check-in
+✓ Early check-in/late check-out available on request
+✓ Complimentary breakfast: 7:00 AM - 10:30 AM
+✓ Free parking available
+
+LOCATION:
+---------
+Hotel Royal Orchid
+Luxury Street, City Center
+Phone: +91 98765 43210
+
+MANAGE YOUR BOOKING:
+View your booking details: {{ url_for('auth.profile', _external=True) }}
+Contact us: {{ url_for('main.contact', _external=True) }}
+
+We look forward to welcoming you to Hotel Royal Orchid!
+
+Warm regards,
+The Hotel Royal Orchid Team
+
+---
+Need assistance? Call us at +91 98765 43210 or email reservations@royalorchid.com

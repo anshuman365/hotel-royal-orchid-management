@@ -1,0 +1,38 @@
+BOOKING CANCELLATION - HOTEL ROYAL ORCHID
+==========================================
+
+Dear {{ booking.user.name }},
+
+Your booking for {{ booking.room.name }} has been successfully cancelled as requested.
+
+CANCELLED BOOKING DETAILS:
+-------------------------
+Booking ID: #{{ booking.id }}
+Room Type: {{ booking.room.name }}
+Original Dates: {{ booking.check_in.strftime('%b %d, %Y') }} - {{ booking.check_out.strftime('%b %d, %Y') }}
+Total Nights: {{ booking.total_nights }} night{% if booking.total_nights > 1 %}s{% endif %}
+
+{% if booking.payment_status == 'paid' %}
+REFUND INFORMATION:
+------------------
+Refund Amount: ₹{{ "%.2f"|format(booking.final_amount) }}
+Refund Method: Same as original payment
+Processing Time: 5-7 business days
+Note: You will receive confirmation from your bank/payment provider
+{% endif %}
+
+SPECIAL OFFER:
+--------------
+As a valued guest, we'd like to offer you 15% OFF your next booking with us.
+Use code: WELCOMEBACK15
+
+BOOK YOUR NEXT STAY:
+{{ url_for('main.index', _external=True) }}
+
+NEED ASSISTANCE?
+Contact our team at +91 98765 43210 or email reservations@royalorchid.com
+
+Thank you for considering Hotel Royal Orchid. We hope to serve you again soon!
+
+Best regards,
+The Hotel Royal Orchid Team

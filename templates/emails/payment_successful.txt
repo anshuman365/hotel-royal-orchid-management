@@ -1,0 +1,42 @@
+PAYMENT SUCCESSFUL - HOTEL ROYAL ORCHID
+=======================================
+
+Dear {{ booking.user.name }},
+
+Your payment has been successfully processed. Your reservation is now confirmed.
+
+PAYMENT DETAILS:
+---------------
+Payment ID: {{ payment.payment_id }}
+Amount Paid: ₹{{ "%.2f"|format(payment.amount) }}
+Payment Method: {{ payment.payment_method|title }}
+Date & Time: {{ payment.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+
+BOOKING DETAILS:
+---------------
+Booking ID: #{{ booking.id }}
+Room: {{ booking.room.name }}
+Check-in: {{ booking.check_in.strftime('%B %d, %Y') }}
+Check-out: {{ booking.check_out.strftime('%B %d, %Y') }}
+Duration: {{ booking.total_nights }} night{% if booking.total_nights > 1 %}s{% endif %}
+Guests: {{ booking.adults }} Guest{% if booking.adults > 1 %}s{% endif %}
+
+NEXT STEPS:
+----------
+✓ You will receive a separate booking confirmation email
+✓ Our team will contact you 24 hours before check-in
+✓ Early check-in requests can be made 48 hours before arrival
+
+MANAGE YOUR BOOKING:
+View booking details: {{ url_for('auth.profile', _external=True) }}
+Book another stay: {{ url_for('main.index', _external=True) }}
+
+NEED HELP?
+Contact our reservations team:
+Phone: +91 98765 43210
+Email: reservations@royalorchid.com
+
+Thank you for your payment and for choosing Hotel Royal Orchid!
+
+Best regards,
+The Hotel Royal Orchid Team

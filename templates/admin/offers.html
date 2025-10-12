@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Offers - Hotel Royal Orchid{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-6">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Manage Offers</h1>
+                <p class="text-gray-600">Create and manage special offers and coupons</p>
+            </div>
+            <a href="{{ url_for('admin.add_offer') }}" class="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition duration-300">
+                <i class="fas fa-plus mr-2"></i>Add New Offer
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Offers Grid -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for offer in offers %}
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">{{ offer.code }}</h3>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                    {% if offer.is_active %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                    {% if offer.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+            </div>
+            
+            <p class="text-gray-600 mb-4">{{ offer.description }}</p>
+            
+            <div class="space-y-2 mb-4">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Discount:</span>
+                    <span class="font-medium">
+                        {% if offer.discount_type == 'percentage' %}
+                        {{ offer.discount_value }}%
+                        {% else %}
+                        ₹{{ "%.2f"|format(offer.discount_value) }}
+                        {% endif %}
+                    </span>
+                </div>
+                {% if offer.min_amount > 0 %}
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Min Amount:</span>
+                    <span class="font-medium">₹{{ "%.2f"|format(offer.min_amount) }}</span>
+                </div>
+                {% endif %}
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Valid Until:</span>
+                    <span class="font-medium">{{ offer.valid_until.strftime('%b %d, %Y') }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Usage:</span>
+                    <span class="font-medium">{{ offer.used_count }}{% if offer.usage_limit %} / {{ offer.usage_limit }}{% endif %}</span>
+                </div>
+            </div>
+            
+            <div class="flex space-x-2">
+                <a href="#" class="flex-1 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition duration-300 text-sm">
+                    Edit
+                </a>
+                <a href="#" class="flex-1 bg-red-600 text-white text-center py-2 rounded-lg hover:bg-red-700 transition duration-300 text-sm">
+                    Delete
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

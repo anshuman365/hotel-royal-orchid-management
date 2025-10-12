@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Login Detected - Hotel Royal Orchid</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: #f8f8f8; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+        .header { background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 40px; text-align: center; color: white; }
+        .content { padding: 40px; color: #333; }
+        .footer { background: #1f2937; padding: 30px; text-align: center; color: #9ca3af; }
+        .security-card { background: #dbeafe; border: 2px solid #93c5fd; border-radius: 12px; padding: 25px; margin: 20px 0; }
+        .button { background: #2563eb; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; display: inline-block; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 New Login Detected</h1>
+            <p>Hotel Royal Orchid Account Security</p>
+        </div>
+        
+        <div class="content">
+            <h2>Hello {{ user.name }},</h2>
+            <p>We noticed a recent login to your Hotel Royal Orchid account. Here are the details:</p>
+            
+            <div class="security-card">
+                <h3 style="margin-top: 0; color: #1e40af;">📋 Login Details</h3>
+                <div class="info-grid">
+                    <div>
+                        <strong>Date & Time:</strong><br>
+                        {{ login_time.strftime('%B %d, %Y at %I:%M %p') }}
+                    </div>
+                    <div>
+                        <strong>IP Address:</strong><br>
+                        {{ ip_address }}
+                    </div>
+                    <div>
+                        <strong>Location:</strong><br>
+                        {{ location or 'Unknown' }}
+                    </div>
+                    <div>
+                        <strong>Device:</strong><br>
+                        {{ device or 'Unknown device' }}
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-top: 0; color: #059669;">✅ Was this you?</h4>
+                <p>If this was you, no action is required. If you don't recognize this activity, please secure your account immediately.</p>
+            </div>
+            
+            <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-top: 0; color: #dc2626;">🚨 Take action if this wasn't you:</h4>
+                <ol style="text-align: left;">
+                    <li>Change your password immediately</li>
+                    <li>Review your account activity</li>
+                    <li>Contact our support team</li>
+                    <li>Check for any unauthorized bookings or changes</li>
+                </ol>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{ url_for('auth.profile', _external=True) }}" class="button">Review Account Activity</a>
+                <a href="{{ url_for('auth.forgot_password', _external=True) }}" style="margin-left: 15px; color: #2563eb; text-decoration: none;">Change Password</a>
+            </div>
+            
+            <p style="text-align: center; color: #6b7280;">
+                For security questions, contact us at:<br>
+                <strong>📞 +91 98765 43210</strong> | <strong>📧 security@royalorchid.com</strong>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>This is an automated security alert from Hotel Royal Orchid.</p>
+            <p>
+                <a href="{{ url_for('main.index', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Website</a>
+                <a href="{{ url_for('main.contact', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Contact</a>
+                <a href="{{ url_for('main.privacy', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Privacy</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

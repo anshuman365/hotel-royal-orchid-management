@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hotel Royal Orchid - Luxury Stay Experience{% endblock %}</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Experience luxury and comfort at Hotel Royal Orchid. Book your stay with premium amenities, fine dining, and exceptional service.">
+    <meta name="keywords" content="hotel, luxury, booking, resort, accommodation">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-white text-gray-800 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{{ url_for('main.index') }}" class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-amber-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">RO</span>
+                        </div>
+                        <span class="text-xl font-serif font-bold text-amber-800">Royal Orchid</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ url_for('main.index') }}" class="text-gray-700 hover:text-amber-600 transition duration-300">Home</a>
+                    <a href="{{ url_for('main.rooms') }}" class="text-gray-700 hover:text-amber-600 transition duration-300">Rooms & Suites</a>
+                    <a href="{{ url_for('main.gallery') }}" class="text-gray-700 hover:text-amber-600 transition duration-300">Gallery</a>
+                    <a href="{{ url_for('main.about') }}" class="text-gray-700 hover:text-amber-600 transition duration-300">About</a>
+                    <a href="{{ url_for('main.contact') }}" class="text-gray-700 hover:text-amber-600 transition duration-300">Contact</a>
+                    
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_staff() %}
+                            <a href="{{ url_for('admin.dashboard') }}" class="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition duration-300">
+                                Admin Dashboard
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('auth.profile') }}" class="text-gray-700 hover:text-amber-600 transition duration-300">
+                                <i class="fas fa-user mr-1"></i>Profile
+                            </a>
+                        {% endif %}
+                        <a href="{{ url_for('auth.logout') }}" class="text-gray-700 hover:text-amber-600 transition duration-300">
+                            Logout
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="text-gray-700 hover:text-amber-600 transition duration-300">Login</a>
+                        <a href="{{ url_for('auth.register') }}" class="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition duration-300">
+                            Book Now
+                        </a>
+                    {% endif %}
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-amber-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="{{ url_for('main.index') }}" class="block px-3 py-2 text-gray-700 hover:text-amber-600">Home</a>
+                <a href="{{ url_for('main.rooms') }}" class="block px-3 py-2 text-gray-700 hover:text-amber-600">Rooms & Suites</a>
+                <a href="{{ url_for('main.gallery') }}" class="block px-3 py-2 text-gray-700 hover:text-amber-600">Gallery</a>
+                <a href="{{ url_for('main.about') }}" class="block px-3 py-2 text-gray-700 hover:text-amber-600">About</a>
+                <a href="{{ url_for('main.contact') }}" class="block px-3 py-2 text-gray-700 hover:text-amber-600">Contact</a>
+                
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_staff() %}
+                        <a href="{{ url_for('admin.dashboard') }}" class="block px-3 py-2 text-gray-700 hover:text-amber-600">Admin Dashboard</a>
+                    {% else %}
+                        <a href="{{ url_for('auth.profile') }}" class="block px-3 py-2 text-gray-700 hover:text-amber-600">Profile</a>
+                    {% endif %}
+                    <a href="{{ url_for('auth.logout') }}" class="block px-3 py-2 text-gray-700 hover:text-amber-600">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="block px-3 py-2 text-gray-700 hover:text-amber-600">Login</a>
+                    <a href="{{ url_for('auth.register') }}" class="block px-3 py-2 bg-amber-600 text-white rounded-lg mx-3">Book Now</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+<!-- Add this in base.html after the navigation menu -->
+<!-- AI Chatbot Floating Button -->
+{% if current_user.is_authenticated %}
+<div class="fixed bottom-6 left-6 z-40">
+    <a href="{{ url_for('chatbot.chatbot_page') }}" 
+       class="bg-gradient-to-r from-amber-600 to-amber-700 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 group">
+        <i class="fas fa-robot text-xl"></i>
+        <span class="absolute right-16 bg-gray-900 text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            Chat with ROY
+        </span>
+    </a>
+</div>
+{% endif %}
+    <!-- Main Content -->
+    <main class="pt-16">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="max-w-7xl mx-auto px-4 py-4">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} p-4 rounded-lg mb-4 {% if category == 'success' %}bg-green-100 text-green-800{% elif category == 'error' or category == 'danger' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Hotel Info -->
+                <div>
+                    <h3 class="text-xl font-serif font-bold text-amber-400 mb-4">Royal Orchid</h3>
+                    <p class="text-gray-300 mb-4">Experience luxury and comfort in the heart of the city. Your perfect stay awaits.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com" class="text-gray-300 hover:text-amber-400 transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.twitter.com" class="text-gray-300 hover:text-amber-400 transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com" class="text-gray-300 hover:text-amber-400 transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('main.rooms') }}" class="text-gray-300 hover:text-amber-400 transition duration-300">Rooms & Suites</a></li>
+                        <li><a href="{{ url_for('main.gallery') }}" class="text-gray-300 hover:text-amber-400 transition duration-300">Gallery</a></li>
+                        <li><a href="{{ url_for('main.about') }}" class="text-gray-300 hover:text-amber-400 transition duration-300">About Us</a></li>
+                        <li><a href="{{ url_for('main.contact') }}" class="text-gray-300 hover:text-amber-400 transition duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <div class="space-y-2 text-gray-300">
+                        <p class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3 text-amber-400"></i>
+                            123 Luxury Street, City, State 12345
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-phone mr-3 text-amber-400"></i>
+                            +91 98765 43210
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-amber-400"></i>
+                            info@royalorchid.com
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-300 mb-4">Subscribe for special offers and updates.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-3 py-2 bg-gray-800 text-white rounded-l-lg focus:outline-none focus:ring-2 focus:ring-amber-400 w-full">
+                        <button type="submit" class="bg-amber-600 text-white px-4 py-2 rounded-r-lg hover:bg-amber-700 transition duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2024 Hotel Royal Orchid. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button. https://wa.me/919876543210 -->
+    <a href="#" target="_blank" id="screenshotBtn"  class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition duration-300 z-40">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/analytics-charts.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    
+    {% block extra_js %}{% endblock %}
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+<script>
+document.getElementById("screenshotBtn").addEventListener("click", function() {
+    html2canvas(document.body).then(function(canvas) {
+        // Create a link to download the image
+        let link = document.createElement('a');
+        link.download = 'fullpage_screenshot.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+});
+</script>
+</body>
+</html>

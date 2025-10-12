@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Rooms - Hotel Royal Orchid{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-6">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Manage Rooms</h1>
+                <p class="text-gray-600">Add, edit, and manage hotel rooms</p>
+            </div>
+            <a href="{{ url_for('admin.add_room') }}" class="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition duration-300">
+                <i class="fas fa-plus mr-2"></i>Add New Room
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Rooms Grid -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for room in rooms %}
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="relative">
+                <img src="{{ url_for('static', filename='images/rooms/room-' + room.id|string + '.jpg') }}" 
+                     alt="{{ room.name }}" class="w-full h-48 object-cover">
+                <div class="absolute top-4 right-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                        {% if room.status == 'available' %}bg-green-100 text-green-800
+                        {% else %}bg-red-100 text-red-800{% endif %}">
+                        {{ room.status|title }}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ room.name }}</h3>
+                <p class="text-gray-600 mb-4">{{ room.room_type }} • {{ room.size }} • {{ room.capacity }} guests</p>
+                
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-2xl font-bold text-amber-600">₹{{ "%.2f"|format(room.price) }}</div>
+                    <div class="text-sm text-gray-500">per night</div>
+                </div>
+                
+                <div class="flex space-x-2">
+                    <a href="{{ url_for('admin.edit_room', room_id=room.id) }}" 
+                       class="flex-1 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition duration-300 text-sm">
+                        Edit
+                    </a>
+                    <a href="{{ url_for('admin.delete_room', room_id=room.id) }}" 
+                       class="flex-1 bg-red-600 text-white text-center py-2 rounded-lg hover:bg-red-700 transition duration-300 text-sm"
+                       onclick="return confirm('Are you sure you want to delete this room?')">
+                        Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

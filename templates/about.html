@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Hotel Royal Orchid{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gray-900 py-20">
+    <div class="max-w-7xl mx-auto px-4 text-center text-white">
+        <h1 class="text-5xl font-serif font-bold mb-6" data-aos="fade-up">About Royal Orchid</h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            Where luxury meets heritage, creating unforgettable experiences
+        </p>
+    </div>
+</section>
+
+<!-- Story Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <h2 class="text-4xl font-serif font-bold text-gray-800 mb-6">Our Story</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    Established in 2010, Hotel Royal Orchid has been redefining luxury hospitality in the heart of the city. 
+                    What began as a vision to create an oasis of elegance has blossomed into one of the most prestigious 
+                    hotel destinations in the region.
+                </p>
+                <p class="text-lg text-gray-600 mb-6">
+                    Our name 'Royal Orchid' reflects our commitment to providing regal treatment with the delicate beauty 
+                    and attention to detail that the orchid flower represents. Each guest experience is crafted with the 
+                    same care one would give to nurturing a rare and precious bloom.
+                </p>
+                <p class="text-lg text-gray-600">
+                    Over the years, we have hosted dignitaries, celebrities, and countless families creating cherished 
+                    memories, all while maintaining our core values of excellence, warmth, and unparalleled service.
+                </p>
+            </div>
+            <div data-aos="fade-left">
+                <div class="relative">
+                    <img src="{{ url_for('static', filename='images/hero/hotel-exterior.jpg') }}" 
+                         alt="Hotel Royal Orchid Exterior" class="rounded-2xl shadow-lg">
+                    <div class="absolute -bottom-6 -left-6 bg-amber-600 text-white p-6 rounded-2xl shadow-lg">
+                        <div class="text-3xl font-bold">14+</div>
+                        <div class="text-sm">Years of Excellence</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-serif font-bold text-gray-800 mb-4">Our Values</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                The principles that guide every aspect of our service
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center" data-aos="fade-up">
+                <div class="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-heart text-amber-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Exceptional Service</h3>
+                <p class="text-gray-600">
+                    We believe in going above and beyond to ensure every guest feels valued, cared for, 
+                    and completely satisfied with their stay.
+                </p>
+            </div>
+
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-star text-amber-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Luxury & Comfort</h3>
+                <p class="text-gray-600">
+                    Combining opulent amenities with homely comfort to create spaces where guests can 
+                    relax, recharge, and feel completely at ease.
+                </p>
+            </div>
+
+            <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-shield-alt text-amber-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Trust & Integrity</h3>
+                <p class="text-gray-600">
+                    Building lasting relationships through transparency, honesty, and consistently 
+                    delivering on our promises to guests and partners.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-serif font-bold text-gray-800 mb-4">Leadership Team</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Meet the passionate individuals dedicated to your exceptional experience
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center" data-aos="fade-up">
+                <div class="w-32 h-32 bg-amber-600 rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto mb-4">
+                    RS
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Rajesh Sharma</h3>
+                <p class="text-amber-600 font-medium mb-2">Managing Director</p>
+                <p class="text-gray-600 text-sm">
+                    With over 25 years in hospitality, Rajesh leads with vision and passion for excellence.
+                </p>
+            </div>
+
+            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-32 h-32 bg-amber-600 rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto mb-4">
+                    PM
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Priya Mehta</h3>
+                <p class="text-amber-600 font-medium mb-2">General Manager</p>
+                <p class="text-gray-600 text-sm">
+                    Priya ensures seamless operations and exceptional guest experiences daily.
+                </p>
+            </div>
+
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-32 h-32 bg-amber-600 rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto mb-4">
+                    AK
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Arun Kumar</h3>
+                <p class="text-amber-600 font-medium mb-2">Head Chef</p>
+                <p class="text-gray-600 text-sm">
+                    Master chef Arun creates culinary masterpieces that delight our guests' palates.
+                </p>
+            </div>
+
+            <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-32 h-32 bg-amber-600 rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto mb-4">
+                    SP
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Sunita Patel</h3>
+                <p class="text-amber-600 font-medium mb-2">Guest Relations Manager</p>
+                <p class="text-gray-600 text-sm">
+                    Sunita and her team ensure every guest need is anticipated and fulfilled.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Awards Section -->
+<section class="py-16 bg-amber-600">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-serif font-bold text-white mb-4">Awards & Recognition</h2>
+            <p class="text-xl text-amber-100">Celebrating excellence in hospitality</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white bg-opacity-10 p-6 rounded-2xl text-center text-white">
+                <i class="fas fa-trophy text-3xl mb-4"></i>
+                <h3 class="text-lg font-semibold mb-2">Luxury Hotel Award 2023</h3>
+                <p class="text-amber-100 text-sm">Best Luxury Hotel in the Region</p>
+            </div>
+
+            <div class="bg-white bg-opacity-10 p-6 rounded-2xl text-center text-white">
+                <i class="fas fa-award text-3xl mb-4"></i>
+                <h3 class="text-lg font-semibold mb-2">Travelers' Choice 2023</h3>
+                <p class="text-amber-100 text-sm">Top 1% of Hotels Worldwide</p>
+            </div>
+
+            <div class="bg-white bg-opacity-10 p-6 rounded-2xl text-center text-white">
+                <i class="fas fa-star text-3xl mb-4"></i>
+                <h3 class="text-lg font-semibold mb-2">5-Star Excellence</h3>
+                <p class="text-amber-100 text-sm">Consistent 5-Star Ratings</p>
+            </div>
+
+            <div class="bg-white bg-opacity-10 p-6 rounded-2xl text-center text-white">
+                <i class="fas fa-utensils text-3xl mb-4"></i>
+                <h3 class="text-lg font-semibold mb-2">Culinary Excellence</h3>
+                <p class="text-amber-100 text-sm">Award-Winning Restaurants</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sustainability Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <h2 class="text-4xl font-serif font-bold text-gray-800 mb-6">Our Commitment to Sustainability</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    At Hotel Royal Orchid, we believe luxury and sustainability can coexist harmoniously. 
+                    We are committed to reducing our environmental footprint while maintaining the highest 
+                    standards of comfort and service.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-leaf text-green-500 text-xl mr-4"></i>
+                        <span class="text-gray-700">Energy-efficient lighting and appliances</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-recycle text-green-500 text-xl mr-4"></i>
+                        <span class="text-gray-700">Comprehensive recycling programs</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-tint text-green-500 text-xl mr-4"></i>
+                        <span class="text-gray-700">Water conservation systems</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-shopping-bag text-green-500 text-xl mr-4"></i>
+                        <span class="text-gray-700">Locally sourced organic products</span>
+                    </div>
+                </div>
+            </div>
+            <div data-aos="fade-left">
+                <div class="bg-green-50 rounded-2xl p-8">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Green Initiatives</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-700">Carbon Footprint Reduction</span>
+                            <span class="font-semibold text-green-600">45%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 45%"></div>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-700">Water Conservation</span>
+                            <span class="font-semibold text-green-600">60%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 60%"></div>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-700">Waste Recycling</span>
+                            <span class="font-semibold text-green-600">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gray-900">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-serif font-bold text-white mb-6">Experience Royal Orchid Hospitality</h2>
+        <p class="text-xl text-gray-300 mb-8">
+            Discover why guests return to us year after year for unparalleled luxury and service
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{{ url_for('main.rooms') }}" class="bg-amber-600 text-white px-8 py-4 rounded-lg hover:bg-amber-700 transition duration-300 font-semibold">
+                Book Your Stay
+            </a>
+            <a href="{{ url_for('main.contact') }}" class="border border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-gray-900 transition duration-300 font-semibold">
+                Contact Us
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

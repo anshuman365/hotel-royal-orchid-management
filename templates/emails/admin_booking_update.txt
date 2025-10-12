@@ -1,0 +1,47 @@
+BOOKING UPDATE - HOTEL ROYAL ORCHID
+===================================
+
+Dear {{ booking.user.name }},
+
+Your booking at Hotel Royal Orchid has been updated by our team.
+
+BOOKING DETAILS:
+---------------
+Booking ID: #{{ booking.id }}
+Status: {{ booking.status|upper }}
+Room: {{ booking.room.name }}
+Check-in: {{ booking.check_in.strftime('%B %d, %Y') }}
+Check-out: {{ booking.check_out.strftime('%B %d, %Y') }}
+Nights: {{ booking.total_nights }} night{% if booking.total_nights > 1 %}s{% endif %}
+
+{% if admin_note %}
+ADMIN NOTE:
+{{ admin_note }}
+{% endif %}
+
+WHAT THIS MEANS:
+{% if booking.status == 'confirmed' %}
+✅ Your booking is confirmed and payment has been processed
+🛏️ Your room is reserved for the selected dates
+📞 Our team will contact you before check-in
+{% elif booking.status == 'cancelled' %}
+❌ Your booking has been cancelled
+💰 Refund will be processed as per cancellation policy
+📧 You'll receive separate refund confirmation
+{% elif booking.status == 'checked_in' %}
+🏨 You are currently checked in
+🎉 Enjoy your stay with us!
+📞 Contact reception for any assistance
+{% elif booking.status == 'checked_out' %}
+👋 Thank you for staying with us!
+⭐ We hope you enjoyed your experience
+📝 Please consider leaving a review
+{% endif %}
+
+VIEW BOOKING DETAILS:
+{{ url_for('auth.profile', _external=True) }}
+
+CONTACT US:
+{{ url_for('main.contact', _external=True) }}
+
+Thank you for choosing Hotel Royal Orchid!

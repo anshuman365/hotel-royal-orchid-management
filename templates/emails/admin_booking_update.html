@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Update - Hotel Royal Orchid</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: #f8f8f8; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+        .header { background: linear-gradient(135deg, #7c3aed, #6d28d9); padding: 40px; text-align: center; color: white; }
+        .content { padding: 40px; color: #333; }
+        .footer { background: #1f2937; padding: 30px; text-align: center; color: #9ca3af; }
+        .update-card { background: #faf5ff; border: 2px solid #ddd6fe; border-radius: 12px; padding: 25px; margin: 20px 0; }
+        .status-badge { padding: 8px 16px; border-radius: 20px; font-weight: bold; display: inline-block; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Booking Updated</h1>
+            <p>Your booking status has been updated</p>
+        </div>
+        
+        <div class="content">
+            <h2>Dear {{ booking.user.name }},</h2>
+            <p>Your booking at Hotel Royal Orchid has been updated by our team. Here are the current details:</p>
+            
+            <div class="update-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0;">Booking #{{ booking.id }}</h3>
+                    <span class="status-badge" style="background: {% if booking.status == 'confirmed' %}#10b981{% elif booking.status == 'cancelled' %}#ef4444{% elif booking.status == 'checked_in' %}#3b82f6{% elif booking.status == 'checked_out' %}#8b5cf6{% else %}#6b7280{% endif %}; color: white;">
+                        {{ booking.status|upper }}
+                    </span>
+                </div>
+                
+                <div class="info-grid">
+                    <div>
+                        <strong>Room:</strong><br>
+                        {{ booking.room.name }}
+                    </div>
+                    <div>
+                        <strong>Check-in:</strong><br>
+                        {{ booking.check_in.strftime('%B %d, %Y') }}
+                    </div>
+                    <div>
+                        <strong>Check-out:</strong><br>
+                        {{ booking.check_out.strftime('%B %d, %Y') }}
+                    </div>
+                    <div>
+                        <strong>Nights:</strong><br>
+                        {{ booking.total_nights }} night{% if booking.total_nights > 1 %}s{% endif %}
+                    </div>
+                </div>
+                
+                {% if admin_note %}
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="margin-top: 0; color: #7c3aed;">💬 Admin Note:</h4>
+                    <p style="margin: 0;">{{ admin_note }}</p>
+                </div>
+                {% endif %}
+            </div>
+            
+            <h3>What this means:</h3>
+            <ul>
+                {% if booking.status == 'confirmed' %}
+                <li>✅ Your booking is confirmed and payment has been processed</li>
+                <li>🛏️ Your room is reserved for the selected dates</li>
+                <li>📞 Our team will contact you before check-in</li>
+                {% elif booking.status == 'cancelled' %}
+                <li>❌ Your booking has been cancelled</li>
+                <li>💰 Refund will be processed as per cancellation policy</li>
+                <li>📧 You'll receive separate refund confirmation</li>
+                {% elif booking.status == 'checked_in' %}
+                <li>🏨 You are currently checked in</li>
+                <li>🎉 Enjoy your stay with us!</li>
+                <li>📞 Contact reception for any assistance</li>
+                {% elif booking.status == 'checked_out' %}
+                <li>👋 Thank you for staying with us!</li>
+                <li>⭐ We hope you enjoyed your experience</li>
+                <li>📝 Please consider leaving a review</li>
+                {% endif %}
+            </ul>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{ url_for('auth.profile', _external=True) }}" class="button" style="background: #7c3aed; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; display: inline-block;">View Booking Details</a>
+                <a href="{{ url_for('main.contact', _external=True) }}" style="margin-left: 15px; color: #7c3aed; text-decoration: none;">Contact Us</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for choosing Hotel Royal Orchid!</p>
+            <p>
+                <a href="{{ url_for('main.index', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Website</a>
+                <a href="{{ url_for('main.contact', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Contact</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

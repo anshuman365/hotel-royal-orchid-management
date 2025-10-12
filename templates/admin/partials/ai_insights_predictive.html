@@ -1,0 +1,45 @@
+<!-- templates/admin/partials/ai_insights_predictive.html -->
+<div class="row">
+    <div class="col-12">
+        <div class="analysis-section">
+            <h4><i class="fas fa-crystal-ball text-info mr-2"></i>Predictive Insights</h4>
+            
+            <div class="prediction-card">
+                <h5 class="text-white">Next Month Forecast</h5>
+                <div class="row text-center text-white mt-3">
+                    <div class="col-md-6">
+                        <div class="h2">{{ predictive_insights.next_month_occupancy|round(1) }}%</div>
+                        <small>Predicted Occupancy</small>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="h2">₹{{ predictive_insights.next_month_revenue|round|int }}</div>
+                        <small>Predicted Revenue</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <h5 class="text-green">High Demand Periods</h5>
+                <ul class="recommendation-list">
+                    {% for period in predictive_insights.high_demand_periods %}
+                    <li>{{ period }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="mt-4">
+                <h5 class="text-amber">Seasonal Trends</h5>
+                <div class="row">
+                    {% for season, months in predictive_insights.seasonal_trends.items() %}
+                    <div class="col-md-4 mb-3">
+                        <div class="metric-card">
+                            <div class="metric-value">{{ season|title }}</div>
+                            <div class="metric-label">{{ months|join(', ') }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

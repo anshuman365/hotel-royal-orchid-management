@@ -1,0 +1,38 @@
+REVIEW UPDATE - HOTEL ROYAL ORCHID
+===================================
+
+Dear {{ review.user.name }},
+
+Thank you for taking the time to share your feedback about your recent stay in our "{{ review.room.name }}". We genuinely value all guest insights as they help us enhance our luxury experience.
+
+REVIEW STATUS UPDATE:
+---------------------
+After careful consideration by our Guest Relations team, we're unable to publish your review at this time.
+
+Reason for Rejection:
+{{ rejection_reason }}
+
+OUR REVIEW GUIDELINES:
+----------------------
+To ensure all reviews maintain our luxury standards and help future guests, we kindly request:
+
+✓ Focus on specific aspects of your stay (service, amenities, comfort)
+✓ Maintain a respectful and constructive tone
+✓ Avoid personal information or inappropriate content
+✓ Share genuine experiences from your verified stay
+
+WE VALUE YOUR FEEDBACK:
+-----------------------
+Your satisfaction is our priority. Please contact our Guest Relations team directly to discuss your experience further.
+
+Contact Guest Relations: guestrelations@royalorchid.com
+
+"We hope to welcome you back for an exceptional experience that exceeds all expectations."
+
+---
+HOTEL ROYAL ORCHID
+📍 Luxury Street, Golden District
+📞 +91 98765 43210
+✉️ guestrelations@royalorchid.com
+
+© 2025 Hotel Royal Orchid. Luxury Redefined Since 1995.

@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}Payment - Hotel Royal Orchid{% endblock %}
+
+{% block extra_css %}
+<style>
+    .payment-container {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .razorpay-payment-button {
+        width: 100%;
+        padding: 15px;
+        background: #5266d3;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+    .razorpay-payment-button:hover {
+        background: #4252b8;
+    }
+    .loading {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gray-900 py-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-white">
+            <h1 class="text-4xl font-serif font-bold mb-4" data-aos="fade-up">Complete Payment</h1>
+            <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="200">
+                Secure payment via Razorpay
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Payment Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Payment Details -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Payment Summary</h2>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Booking ID</span>
+                        <span class="font-semibold">#{{ booking.id }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Room</span>
+                        <span class="font-semibold">{{ booking.room.name }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Amount</span>
+                        <span class="font-semibold">₹{{ "%.2f"|format(booking.final_amount) }}</span>
+                    </div>
+                </div>
+
+                <!-- Razorpay Payment Button -->
+                <form action="{{ url_for('booking.process_payment', booking_id=booking.id) }}" method="POST" id="payment-form">
+                    <script
+                        src="https://checkout.razorpay.com/v1/checkout.js"
+                        data-key="{{ razorpay_key }}"
+                        data-amount="{{ (booking.final_amount * 100)|int }}"
+                        data-currency="INR"
+                        data-order_id="{{ booking.razorpay_order_id }}"
+                        data-buttontext="Pay ₹{{ '%.2f'|format(booking.final_amount) }}"
+                        data-name="Hotel Royal Orchid"
+                        data-description="Room Booking Payment"
+                        data-image="{{ url_for('static', filename='images/logo.png') }}"
+                        data-prefill.name="{{ current_user.name }}"
+                        data-prefill.email="{{ current_user.email }}"
+                        data-prefill.contact="{{ current_user.phone or '' }}"
+                        data-theme.color="#F59E0B"
+                    ></script>
+                    <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+                    <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+                    <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+                    <p class="mt-4 text-gray-600">Processing payment...</p>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <a href="{{ url_for('booking.book_room', room_id=booking.room.id) }}" 
+                       class="text-amber-600 hover:text-amber-700 font-semibold">
+                        ← Back to Booking
+                    </a>
+                </div>
+            </div>
+
+            <!-- Security Info -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Secure Payment</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <i class="fas fa-shield-alt text-green-500 mt-1 mr-3"></i>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">100% Secure</h4>
+                            <p class="text-gray-600 text-sm">Your payment is protected with bank-level security</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <i class="fas fa-lock text-green-500 mt-1 mr-3"></i>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">SSL Encrypted</h4>
+                            <p class="text-gray-600 text-sm">All transactions are SSL encrypted</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <i class="fas fa-credit-card text-green-500 mt-1 mr-3"></i>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Multiple Options</h4>
+                            <p class="text-gray-600 text-sm">Credit/Debit Cards, Net Banking, UPI, Wallets</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-amber-50 rounded-lg">
+                    <h4 class="font-semibold text-amber-800 mb-2">Need Help?</h4>
+                    <p class="text-amber-700 text-sm">
+                        Contact our support team at 
+                        <a href="tel:+919876543210" class="font-semibold">+91 98765 43210</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Override Razorpay's default form submission
+        var options = {
+            "key": "{{ razorpay_key }}",
+            "amount": "{{ (booking.final_amount * 100)|int }}",
+            "currency": "INR",
+            "name": "Hotel Royal Orchid",
+            "description": "Room Booking Payment",
+            "image": "{{ url_for('static', filename='images/logo.png') }}",
+            "order_id": "{{ booking.razorpay_order_id }}",
+            "handler": function (response) {
+                // Show loading
+                document.getElementById('loading').style.display = 'block';
+                
+                // Set the hidden fields with Razorpay response
+                document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+                document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
+                document.getElementById('razorpay_signature').value = response.razorpay_signature;
+                
+                console.log('Payment response:', response);
+                
+                // Submit the form
+                document.getElementById('payment-form').submit();
+            },
+            "prefill": {
+                "name": "{{ current_user.name }}",
+                "email": "{{ current_user.email }}",
+                "contact": "{{ current_user.phone or '' }}"
+            },
+            "theme": {
+                "color": "#F59E0B"
+            }
+        };
+
+        // Create Razorpay instance
+        var rzp1 = new Razorpay(options);
+
+        // Override the default button behavior
+        document.querySelector('.razorpay-payment-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            rzp1.open();
+        });
+
+        // Handle payment errors
+        rzp1.on('payment.failed', function (response) {
+            console.error('Payment failed:', response.error);
+            alert('Payment failed. Please try again. Error: ' + response.error.description);
+        });
+    });
+</script>
+{% endblock %}

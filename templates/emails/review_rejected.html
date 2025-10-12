@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Update - Hotel Royal Orchid</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .email-container {
+            max-width: 650px;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+            padding: 50px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .content {
+            padding: 50px 40px;
+            color: #2d3748;
+        }
+        
+        .greeting {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .notice-card {
+            background: linear-gradient(135deg, #fed7d7, #feb2b2);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 5px solid #e53e3e;
+            box-shadow: 0 10px 30px rgba(229, 62, 62, 0.1);
+        }
+        
+        .notice-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .notice-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .reason-box {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .reason-title {
+            font-weight: 600;
+            color: #e53e3e;
+            margin-bottom: 10px;
+        }
+        
+        .guidelines {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .guidelines h3 {
+            font-family: 'Playfair Display', serif;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .guideline-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 12px 0;
+        }
+        
+        .guideline-icon {
+            color: #d4af37;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+        
+        .contact-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+        }
+        
+        .contact-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: white;
+            padding: 16px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        .contact-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+        
+        .footer {
+            background: #1a202c;
+            color: #a0aec0;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2rem; }
+            .content { padding: 30px 20px; }
+            .notice-card { padding: 20px; }
+            .contact-button { padding: 14px 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>📝 Review Update</h1>
+            <p>Hotel Royal Orchid - Guest Relations</p>
+        </div>
+        
+        <div class="content">
+            <div class="greeting">
+                <p>Dear <strong>{{ review.user.name }}</strong>,</p>
+                <p>Thank you for taking the time to share your feedback about your recent stay in our <strong>{{ review.room.name }}</strong>. We genuinely value all guest insights as they help us enhance our luxury experience.</p>
+            </div>
+            
+            <div class="notice-card">
+                <div class="notice-icon">⚠️</div>
+                <div class="notice-title">Review Status Update</div>
+                <p style="text-align: center; color: #4a5568; margin-bottom: 20px;">
+                    After careful consideration by our Guest Relations team, we're unable to publish your review at this time.
+                </p>
+                
+                <div class="reason-box">
+                    <div class="reason-title">Reason for Rejection:</div>
+                    <div style="color: #2d3748; line-height: 1.6;">{{ rejection_reason }}</div>
+                </div>
+            </div>
+            
+            <div class="guidelines">
+                <h3>📋 Our Review Guidelines</h3>
+                <p style="color: #4a5568; margin-bottom: 20px;">To ensure all reviews maintain our luxury standards and help future guests, we kindly request:</p>
+                
+                <div class="guideline-item">
+                    <span class="guideline-icon">✓</span>
+                    <span>Focus on specific aspects of your stay (service, amenities, comfort)</span>
+                </div>
+                <div class="guideline-item">
+                    <span class="guideline-icon">✓</span>
+                    <span>Maintain a respectful and constructive tone</span>
+                </div>
+                <div class="guideline-item">
+                    <span class="guideline-icon">✓</span>
+                    <span>Avoid personal information or inappropriate content</span>
+                </div>
+                <div class="guideline-item">
+                    <span class="guideline-icon">✓</span>
+                    <span>Share genuine experiences from your verified stay</span>
+                </div>
+            </div>
+            
+            <div class="contact-section">
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 15px; color: #2d3748;">
+                    We Value Your Feedback
+                </h3>
+                <p style="color: #4a5568; margin-bottom: 20px;">
+                    Your satisfaction is our priority. Please contact our Guest Relations team directly to discuss your experience further.
+                </p>
+                <a href="mailto:guestrelations@royalorchid.com" class="contact-button">
+                    Contact Guest Relations
+                </a>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="color: #4a5568; font-style: italic;">
+                    "We hope to welcome you back for an exceptional experience that exceeds all expectations."
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-logo">Hotel Royal Orchid</div>
+            <div style="margin: 20px 0; line-height: 1.8;">
+                📍 Luxury Street, Golden District<br>
+                📞 +91 98765 43210<br>
+                ✉️ guestrelations@royalorchid.com
+            </div>
+            <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">
+                © 2025 Hotel Royal Orchid. Luxury Redefined Since 1995.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

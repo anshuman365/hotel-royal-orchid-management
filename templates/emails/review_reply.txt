@@ -1,0 +1,43 @@
+MANAGEMENT RESPONSE - HOTEL ROYAL ORCHID
+=========================================
+
+Dear {{ review.user.name }},
+
+Our executive management team has personally reviewed your feedback and would like to respond to your valuable insights about your stay in our "{{ review.room.name }}".
+
+YOUR ORIGINAL REVIEW:
+---------------------
+Room: {{ review.room.name }}
+Rating: {{ review.rating }}/5 stars
+{% if review.title %}
+Title: {{ review.title }}
+{% endif %}
+Comment: {{ review.comment }}
+
+MANAGEMENT RESPONSE:
+--------------------
+{{ review.reply }}
+
+Mr. Rajesh Kumar
+General Manager
+Hotel Royal Orchid
+
+OUR COMMITMENT TO EXCELLENCE:
+-----------------------------
+Your feedback is instrumental in our continuous pursuit of perfection. We are committed to implementing improvements that enhance every aspect of the Royal Orchid experience.
+
+EXPERIENCE THE ENHANCED ROYAL ORCHID:
+--------------------------------------
+We would be honored to welcome you back and demonstrate our commitment to exceptional service.
+
+Book Your Next Luxury Stay: {{ url_for('main.rooms', _external=True) }}
+
+"Where every guest is royalty, and every stay is a masterpiece."
+
+---
+HOTEL ROYAL ORCHID
+📍 Luxury Street, Golden District
+📞 +91 98765 43210
+✉️ executiveoffice@royalorchid.com
+
+© 2025 Hotel Royal Orchid. Luxury Redefined Since 1995.

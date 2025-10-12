@@ -1,0 +1,37 @@
+NEW LOGIN DETECTED - HOTEL ROYAL ORCHID
+=======================================
+
+Hello {{ user.name }},
+
+We noticed a recent login to your Hotel Royal Orchid account.
+
+LOGIN DETAILS:
+-------------
+Date & Time: {{ login_time.strftime('%B %d, %Y at %I:%M %p') }}
+IP Address: {{ ip_address }}
+Location: {{ location or 'Unknown' }}
+Device: {{ device or 'Unknown device' }}
+
+✅ WAS THIS YOU?
+If this was you, no action is required.
+
+🚨 TAKE ACTION IF THIS WASN'T YOU:
+1. Change your password immediately
+2. Review your account activity
+3. Contact our support team
+4. Check for any unauthorized bookings or changes
+
+SECURE YOUR ACCOUNT:
+Review activity: {{ url_for('auth.profile', _external=True) }}
+Change password: {{ url_for('auth.forgot_password', _external=True) }}
+
+NEED HELP?
+Contact our security team:
+Phone: +91 98765 43210
+Email: security@royalorchid.com
+
+This is an automated security alert from Hotel Royal Orchid.
+
+---
+Hotel Royal Orchid
+{{ url_for('main.index', _external=True) }}

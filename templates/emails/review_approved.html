@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Published - Hotel Royal Orchid</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .email-container {
+            max-width: 650px;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            padding: 50px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .content {
+            padding: 50px 40px;
+            color: #2d3748;
+        }
+        
+        .greeting {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .review-card {
+            background: linear-gradient(135deg, #fff9db, #fff3cd);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 5px solid #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+        }
+        
+        .review-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .room-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        
+        .rating-stars {
+            color: #d4af37;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+        }
+        
+        .review-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .review-comment {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: white;
+            padding: 16px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+        
+        .footer {
+            background: #1a202c;
+            color: #a0aec0;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info {
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: #d4af37;
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2.2rem; }
+            .content { padding: 30px 20px; }
+            .review-card { padding: 20px; }
+            .cta-button { padding: 14px 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>🌟 Review Published!</h1>
+            <p>Your Voice Matters at Hotel Royal Orchid</p>
+        </div>
+        
+        <div class="content">
+            <div class="greeting">
+                <p>Dear <strong>{{ review.user.name }}</strong>,</p>
+                <p>Thank you for sharing your exquisite experience with us. Your thoughtful review of <strong>{{ review.room.name }}</strong> has been published and is now inspiring future guests.</p>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="room-name">{{ review.room.name }}</div>
+                    <div class="rating-stars">
+                        {{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}
+                    </div>
+                </div>
+                
+                {% if review.title %}
+                <div class="review-title">{{ review.title }}</div>
+                {% endif %}
+                
+                <div class="review-comment">{{ review.comment }}</div>
+                
+                <div class="badge">
+                    ✓ Verified Stay • Published
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <p style="font-size: 1.1rem; color: #4a5568;">
+                    Your insights help us maintain our gold standard of luxury and assist discerning travelers in making informed decisions.
+                </p>
+            </div>
+            
+            <div class="cta-section">
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 20px; color: #2d3748;">
+                    Plan Your Next Luxury Escape
+                </h3>
+                <a href="{{ url_for('main.rooms', _external=True) }}" class="cta-button">
+                    Explore Our Collection
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-logo">Hotel Royal Orchid</div>
+            <div class="contact-info">
+                📍 Luxury Street, Golden District<br>
+                📞 +91 98765 43210<br>
+                ✉️ guestrelations@royalorchid.com
+            </div>
+            <div class="social-links">
+                <a href="#">Instagram</a> • 
+                <a href="#">Facebook</a> • 
+                <a href="#">Twitter</a>
+            </div>
+            <div class="copyright">
+                © 2025 Hotel Royal Orchid. All rights reserved.<br>
+                Luxury Redefined Since 1995
+            </div>
+        </div>
+    </div>
+</body>
+</html>

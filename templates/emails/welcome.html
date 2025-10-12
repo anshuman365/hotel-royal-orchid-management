@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Hotel Royal Orchid</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: #f8f8f8; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+        .header { background: linear-gradient(135deg, #d97706, #b45309); padding: 40px; text-align: center; color: white; }
+        .content { padding: 40px; color: #333; }
+        .footer { background: #1f2937; padding: 30px; text-align: center; color: #9ca3af; }
+        .button { background: #d97706; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; }
+        .feature { display: flex; align-items: center; margin: 20px 0; }
+        .feature-icon { background: #fef3c7; padding: 15px; border-radius: 50%; margin-right: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Hotel Royal Orchid</h1>
+            <p>Where Luxury Meets Comfort</p>
+        </div>
+        
+        <div class="content">
+            <h2>Dear {{ user.name }},</h2>
+            <p>Welcome to the Hotel Royal Orchid family! We're thrilled to have you as our valued guest.</p>
+            
+            <div class="feature">
+                <div class="feature-icon">🏨</div>
+                <div>
+                    <h3>Luxurious Accommodations</h3>
+                    <p>Experience our premium rooms and suites with world-class amenities</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <div>
+                    <h3>Exclusive Member Benefits</h3>
+                    <p>Enjoy special discounts, early check-in, and personalized services</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <div>
+                    <h3>Easy Booking Management</h3>
+                    <p>Manage your bookings, preferences, and special requests online</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 40px 0;">
+                <a href="{{ url_for('main.index', _external=True) }}" class="button">Explore Our Rooms</a>
+            </div>
+            
+            <p><strong>Your Account Details:</strong></p>
+            <ul>
+                <li>Email: {{ user.email }}</li>
+                <li>Member Since: {{ user.created_at.strftime('%B %d, %Y') }}</li>
+                <li>Member ID: RO{{ user.id }}{{ user.created_at.strftime('%m%Y') }}</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>Hotel Royal Orchid<br>
+            Luxury Street, City Center<br>
+            Phone: +91 98765 43210 | Email: reservations@royalorchid.com</p>
+            <p>
+                <a href="{{ url_for('main.terms', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Terms</a>
+                <a href="{{ url_for('main.privacy', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Privacy</a>
+                <a href="{{ url_for('main.contact', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Contact</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

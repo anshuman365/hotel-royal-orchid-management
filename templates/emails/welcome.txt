@@ -1,0 +1,37 @@
+WELCOME TO HOTEL ROYAL ORCHID
+=============================
+
+Dear {{ user.name }},
+
+Welcome to the Hotel Royal Orchid family! We're thrilled to have you as our valued guest.
+
+YOUR ACCOUNT DETAILS:
+- Email: {{ user.email }}
+- Member Since: {{ user.created_at.strftime('%B %d, %Y') }}
+- Member ID: RO{{ user.id }}{{ user.created_at.strftime('%m%Y') }}
+
+EXCLUSIVE MEMBER BENEFITS:
+✓ Luxurious accommodations with world-class amenities
+✓ Special member discounts and offers
+✓ Early check-in and late check-out options
+✓ Personalized service and preferences
+
+GET STARTED:
+Explore our luxurious rooms and book your stay:
+{{ url_for('main.index', _external=True) }}
+
+NEED HELP?
+Our concierge team is available 24/7 to assist you:
+Phone: +91 98765 43210
+Email: reservations@royalorchid.com
+
+Thank you for choosing Hotel Royal Orchid. We look forward to welcoming you soon!
+
+Warm regards,
+The Hotel Royal Orchid Team
+
+---
+Hotel Royal Orchid
+Luxury Street, City Center
+reservations@royalorchid.com
+{{ url_for('main.index', _external=True) }}

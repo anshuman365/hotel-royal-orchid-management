@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - Hotel Royal Orchid{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="flex justify-center">
+            <div class="w-32 h-32 bg-red-100 rounded-full flex items-center justify-center">
+                <i class="fas fa-exclamation-triangle text-red-600 text-5xl"></i>
+            </div>
+        </div>
+        <h2 class="mt-6 text-center text-3xl font-serif font-bold text-gray-900">
+            500 - Server Error
+        </h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+            Something went wrong on our end. We're working to fix it!
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-lg">
+        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 text-center">
+            <div class="space-y-6">
+                <p class="text-gray-600">
+                    Our team has been notified about this issue and is working to resolve it. 
+                    Please try again in a few moments.
+                </p>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-lightbulb text-yellow-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-yellow-700">
+                                <strong>Quick Fix:</strong> Try refreshing the page or coming back later.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                    <button onclick="window.location.reload()" 
+                            class="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition duration-300 font-semibold">
+                        <i class="fas fa-redo mr-2"></i>Refresh Page
+                    </button>
+                    <a href="{{ url_for('main.index') }}" 
+                       class="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition duration-300 font-semibold">
+                        <i class="fas fa-home mr-2"></i>Go Home
+                    </a>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <p class="text-sm text-gray-500 mb-4">
+                        If the problem persists, please contact our technical support team.
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center justify-center">
+                            <i class="fas fa-phone text-amber-600 mr-2"></i>
+                            <span>Technical Support: +91 98765 43212</span>
+                        </div>
+                        <div class="flex items-center justify-center">
+                            <i class="fas fa-envelope text-amber-600 mr-2"></i>
+                            <span>techsupport@royalorchid.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Status Information -->
+<div class="bg-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h3 class="text-2xl font-serif font-bold text-gray-800 mb-8">System Status</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-green-50 p-6 rounded-2xl">
+                <i class="fas fa-check-circle text-green-600 text-2xl mb-4"></i>
+                <h4 class="font-semibold text-gray-800">Booking System</h4>
+                <p class="text-green-600 text-sm mt-2">Operational</p>
+            </div>
+            
+            <div class="bg-green-50 p-6 rounded-2xl">
+                <i class="fas fa-check-circle text-green-600 text-2xl mb-4"></i>
+                <h4 class="font-semibold text-gray-800">Payment Gateway</h4>
+                <p class="text-green-600 text-sm mt-2">Operational</p>
+            </div>
+            
+            <div class="bg-red-50 p-6 rounded-2xl">
+                <i class="fas fa-exclamation-circle text-red-600 text-2xl mb-4"></i>
+                <h4 class="font-semibold text-gray-800">This Service</h4>
+                <p class="text-red-600 text-sm mt-2">Under Maintenance</p>
+            </div>
+        </div>
+        
+        <div class="mt-8 bg-gray-50 rounded-2xl p-6">
+            <h4 class="font-semibold text-gray-800 mb-4">What's Happening?</h4>
+            <p class="text-gray-600 text-sm">
+                Our technical team is performing maintenance to improve your experience. 
+                We apologize for the inconvenience and appreciate your patience.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-refresh after 30 seconds
+setTimeout(function() {
+    window.location.reload();
+}, 30000);
+</script>
+{% endblock %}

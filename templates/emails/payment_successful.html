@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Hotel Royal Orchid</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background: #f8f8f8; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+        .header { background: linear-gradient(135deg, #059669, #047857); padding: 40px; text-align: center; color: white; }
+        .content { padding: 40px; color: #333; }
+        .footer { background: #1f2937; padding: 30px; text-align: center; color: #9ca3af; }
+        .success-card { background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 12px; padding: 25px; margin: 20px 0; text-align: center; }
+        .payment-details { background: white; padding: 20px; border-radius: 8px; margin: 15px 0; }
+        .button { background: #059669; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ Payment Successful</h1>
+            <p>Your payment has been processed successfully</p>
+        </div>
+        
+        <div class="content">
+            <div class="success-card">
+                <div style="font-size: 48px; margin-bottom: 15px;">💰</div>
+                <h2 style="margin: 0; color: #059669;">Payment Confirmed!</h2>
+                <p style="font-size: 18px; margin: 10px 0;">Thank you for your payment</p>
+            </div>
+            
+            <h2>Dear {{ booking.user.name }},</h2>
+            <p>Your payment for booking #{{ booking.id }} has been successfully processed. Your reservation is now confirmed.</p>
+            
+            <div class="payment-details">
+                <h3 style="margin-top: 0;">Payment Details</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <strong>Payment ID:</strong><br>
+                        {{ payment.payment_id }}
+                    </div>
+                    <div>
+                        <strong>Amount Paid:</strong><br>
+                        ₹{{ "%.2f"|format(payment.amount) }}
+                    </div>
+                    <div>
+                        <strong>Payment Method:</strong><br>
+                        {{ payment.payment_method|title }}
+                    </div>
+                    <div>
+                        <strong>Date & Time:</strong><br>
+                        {{ payment.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">📅 Your Stay Details</h3>
+                <p><strong>{{ booking.room.name }}</strong> from <strong>{{ booking.check_in.strftime('%B %d, %Y') }}</strong> to <strong>{{ booking.check_out.strftime('%B %d, %Y') }}</strong></p>
+                <p>{{ booking.total_nights }} night{% if booking.total_nights > 1 %}s{% endif %} • {{ booking.adults }} Guest{% if booking.adults > 1 %}s{% endif %}</p>
+            </div>
+            
+            <h3>Next Steps</h3>
+            <ul>
+                <li>You will receive a separate booking confirmation email</li>
+                <li>Our team will contact you 24 hours before check-in</li>
+                <li>Early check-in requests can be made 48 hours before arrival</li>
+            </ul>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{ url_for('auth.profile', _external=True) }}" class="button">View Booking Details</a>
+                <a href="{{ url_for('main.index', _external=True) }}" style="margin-left: 15px; color: #059669; text-decoration: none;">Book Another Stay</a>
+            </div>
+            
+            <p style="text-align: center; color: #6b7280;">
+                Need to modify your booking?<br>
+                Contact us at <strong>+91 98765 43210</strong> or <strong>reservations@royalorchid.com</strong>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for choosing Hotel Royal Orchid!</p>
+            <p>
+                <a href="{{ url_for('main.index', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Website</a>
+                <a href="{{ url_for('main.contact', _external=True) }}" style="color: #9ca3af; margin: 0 10px;">Contact</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

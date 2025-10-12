@@ -1,0 +1,42 @@
+<!-- templates/admin/partials/ai_insights_strategic.html -->
+<div class="row">
+    <div class="col-12">
+        <div class="analysis-section">
+            <h4><i class="fas fa-chess-queen text-purple mr-2"></i>Strategic Analysis</h4>
+            
+            {% if strategic_insights and strategic_insights != "AI insights temporarily unavailable" %}
+                {% if strategic_insights is string %}
+                    <div class="json-view">{{ strategic_insights }}</div>
+                {% else %}
+                    <div class="alert-card">
+                        <h5 class="text-amber">Executive Summary</h5>
+                        <p>{{ strategic_insights.executive_summary }}</p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5 class="text-green">Growth Opportunities</h5>
+                        <ul class="recommendation-list">
+                            {% for opportunity in strategic_insights.growth_opportunities %}
+                            <li>{{ opportunity }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5 class="text-red">Strategic Recommendations</h5>
+                        <ul class="recommendation-list">
+                            {% for recommendation in strategic_insights.strategic_recommendations %}
+                            <li>{{ recommendation }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="text-center py-4 text-muted">
+                    <i class="fas fa-brain fa-3x mb-3"></i>
+                    <p>Strategic analysis not available</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

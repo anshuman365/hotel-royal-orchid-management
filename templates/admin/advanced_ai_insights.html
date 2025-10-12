@@ -1,0 +1,261 @@
+<!-- templates/admin/advanced_ai_insights.html -->
+{% extends "base.html" %}
+
+{% block title %}Advanced AI Business Insights | Hotel Royal Orchid Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .insight-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .metric-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .metric-value {
+        font-size: 2em;
+        font-weight: bold;
+        color: #2c5530;
+        margin-bottom: 5px;
+    }
+    
+    .metric-label {
+        color: #666;
+        font-size: 0.9em;
+    }
+    
+    .trend-positive { color: #10B981; }
+    .trend-negative { color: #EF4444; }
+    .trend-neutral { color: #6B7280; }
+    
+    .analysis-section {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .prediction-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 15px 0;
+    }
+    
+    .alert-card {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 10px 0;
+    }
+    
+    .recommendation-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .recommendation-list li {
+        background: #e8f5e8;
+        margin: 8px 0;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border-left: 4px solid #4caf50;
+    }
+    
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .nav-tabs {
+        border-bottom: 2px solid #dee2e6;
+        margin-bottom: 20px;
+    }
+    
+    .nav-tabs .nav-link {
+        border: none;
+        color: #6c757d;
+        font-weight: 500;
+        padding: 12px 25px;
+    }
+    
+    .nav-tabs .nav-link.active {
+        color: #2c5530;
+        border-bottom: 3px solid #2c5530;
+        background: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 font-weight-bold text-gray-800">
+                        <i class="fas fa-brain text-purple-600 mr-2"></i>
+                        Advanced AI Business Insights
+                    </h1>
+                    <p class="text-muted">AI-powered strategic analysis and predictions</p>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="refreshInsights()">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh Insights
+                    </button>
+                    <button class="btn btn-success" onclick="generateReport()">
+                        <i class="fas fa-file-alt mr-2"></i>Generate Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs" id="insightsTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview">
+                <i class="fas fa-chart-bar mr-2"></i>Overview
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="strategic-tab" data-toggle="tab" href="#strategic">
+                <i class="fas fa-chess-queen mr-2"></i>Strategic Analysis
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="predictive-tab" data-toggle="tab" href="#predictive">
+                <i class="fas fa-crystal-ball mr-2"></i>Predictive Insights
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="financial-tab" data-toggle="tab" href="#financial">
+                <i class="fas fa-money-bill-wave mr-2"></i>Financial Analysis
+            </a>
+        </li>
+    </ul>
+
+<!-- Replace the tab content section in advanced_ai_insights.html with this: -->
+<div class="tab-content mt-4" id="insightsTabsContent">
+    
+    <!-- Overview Tab -->
+    <div class="tab-pane fade show active" id="overview" role="tabpanel">
+        {% include 'admin/partials/ai_insights_overview.html' %}
+    </div>
+
+    <!-- Strategic Analysis Tab -->
+    <div class="tab-pane fade" id="strategic" role="tabpanel">
+        {% include 'admin/partials/ai_insights_strategic.html' %}
+    </div>
+
+    <!-- Predictive Insights Tab -->
+    <div class="tab-pane fade" id="predictive" role="tabpanel">
+        {% include 'admin/partials/ai_insights_predictive.html' %}
+    </div>
+
+    <!-- Financial Analysis Tab -->
+    <div class="tab-pane fade" id="financial" role="tabpanel">
+        {% include 'admin/partials/ai_insights_financial.html' %}
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function refreshInsights() {
+        showLoading();
+        fetch('/admin/ai-insights/refresh', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            hideLoading();
+        });
+    }
+
+    function generateReport() {
+        showLoading();
+        fetch('/api/admin/chat/generate-report', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                report_type: 'comprehensive'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoading();
+            if (data.success) {
+                // Show report in modal or new tab
+                showReportModal(data.report);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            hideLoading();
+        });
+    }
+
+    function showReportModal(report) {
+        // Implementation for showing report modal
+        alert('Report generated successfully! Check the console for details.');
+        console.log('AI Business Report:', report);
+    }
+
+    function showLoading() {
+        // Show loading indicator
+        document.body.style.cursor = 'wait';
+    }
+
+    function hideLoading() {
+        // Hide loading indicator
+        document.body.style.cursor = 'default';
+    }
+
+    // Auto-refresh insights every 5 minutes
+    setInterval(refreshInsights, 300000);
+</script>
+{% endblock %}

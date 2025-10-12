@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}Rooms & Suites - Hotel Royal Orchid{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gray-900 py-20">
+    <div class="max-w-7xl mx-auto px-4 text-center text-white">
+        <h1 class="text-5xl font-serif font-bold mb-6" data-aos="fade-up">Rooms & Suites</h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            Discover our luxurious accommodations designed for your comfort and relaxation
+        </p>
+    </div>
+</section>
+
+<!-- Filters -->
+<section class="py-8 bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4">
+        <form id="filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Room Type</label>
+                <select name="type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
+                    <option value="">All Types</option>
+                    {% for room_type in room_types %}
+                    <option value="{{ room_type }}" {% if selected_type == room_type %}selected{% endif %}>{{ room_type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Min Price</label>
+                <input type="number" name="min_price" placeholder="Min price" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Max Price</label>
+                <input type="number" name="max_price" placeholder="Max price" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
+            </div>
+            <div class="flex items-end">
+                <button type="submit" class="w-full bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition duration-300">
+                    Apply Filters
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Rooms Grid -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        {% if rooms %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for room in rooms %}
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300" data-aos="fade-up">
+                <div class="relative overflow-hidden">
+                    <img src="{{ url_for('static', filename='images/rooms/room-' + room.id|string + '.jpg') }}" 
+                         alt="{{ room.name }}" class="w-full h-64 object-cover transition duration-300 hover:scale-105">
+                    <div class="absolute top-4 right-4 bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        {{ room.room_type }}
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+                        {{ room.size }} sq ft
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ room.name }}</h3>
+                    <p class="text-gray-600 mb-4 line-clamp-2">{{ room.description }}</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-2xl font-bold text-amber-600">₹{{ "%.2f"|format(room.price) }}</div>
+                        <div class="text-sm text-gray-500">per night</div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4 text-sm text-gray-600">
+                        <div class="flex items-center">
+                            <i class="fas fa-user-friends mr-2"></i>
+                            {{ room.capacity }} Guests
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-bed mr-2"></i>
+                            {{ room.max_adults + room.max_children }} Beds
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <a href="{{ url_for('main.room_detail', room_id=room.id) }}" 
+                           class="flex-1 bg-gray-800 text-white text-center py-3 rounded-lg hover:bg-gray-900 transition duration-300">
+                            View Details
+                        </a>
+                        <button onclick="showBookingModal({{ room.id }})" 
+                                class="flex-1 bg-amber-600 text-white text-center py-3 rounded-lg hover:bg-amber-700 transition duration-300">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12" data-aos="fade-up">
+            <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+            <h3 class="text-2xl font-semibold text-gray-600 mb-4">No rooms found</h3>
+            <p class="text-gray-500 mb-6">Try adjusting your filters to find what you're looking for.</p>
+            <a href="{{ url_for('main.rooms') }}" class="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition duration-300">
+                Clear Filters
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Amenities Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-serif font-bold text-gray-800 mb-4">Room Amenities</h2>
+            <p class="text-gray-600">All our rooms include these premium amenities</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="text-center p-4">
+                <i class="fas fa-wifi text-amber-600 text-2xl mb-3"></i>
+                <h4 class="font-semibold text-gray-800">Free WiFi</h4>
+            </div>
+            <div class="text-center p-4">
+                <i class="fas fa-tv text-amber-600 text-2xl mb-3"></i>
+                <h4 class="font-semibold text-gray-800">Smart TV</h4>
+            </div>
+            <div class="text-center p-4">
+                <i class="fas fa-snowflake text-amber-600 text-2xl mb-3"></i>
+                <h4 class="font-semibold text-gray-800">Air Conditioning</h4>
+            </div>
+            <div class="text-center p-4">
+                <i class="fas fa-coffee text-amber-600 text-2xl mb-3"></i>
+                <h4 class="font-semibold text-gray-800">Coffee Maker</h4>
+            </div>
+            <div class="text-center p-4">
+                <i class="fas fa-shower text-amber-600 text-2xl mb-3"></i>
+                <h4 class="font-semibold text-gray-800">Rain Shower</h4>
+            </div>
+            <div class="text-center p-4">
+                <i class="fas fa-lock text-amber-600 text-2xl mb-3"></i>
+                <h4 class="font-semibold text-gray-800">Safe Deposit</h4>
+            </div>
+            <div class="text-center p-4">
+                <i class="fas fa-concierge-bell text-amber-600 text-2xl mb-3"></i>
+                <h4 class="font-semibold text-gray-800">Room Service</h4>
+            </div>
+            <div class="text-center p-4">
+                <i class="fas fa-tshirt text-amber-600 text-2xl mb-3"></i>
+                <h4 class="font-semibold text-gray-800">Laundry Service</h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Modal -->
+<div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold text-gray-800">Select Dates</h3>
+            <button onclick="hideBookingModal()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="bookingModalForm">
+            <input type="hidden" id="selectedRoomId">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Check-in Date *</label>
+                    <input type="date" id="modalCheckIn" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Check-out Date *</label>
+                    <input type="date" id="modalCheckOut" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Guests</label>
+                    <select id="modalGuests" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
+                        <option value="1">1 Guest</option>
+                        <option value="2" selected>2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="flex space-x-4 mt-6">
+                <button type="button" onclick="hideBookingModal()" 
+                        class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition duration-300">
+                    Cancel
+                </button>
+                <button type="button" onclick="proceedToBooking()" 
+                        class="flex-1 bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 transition duration-300">
+                    Continue to Booking
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Filter form submission
+    document.getElementById('filter-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const params = new URLSearchParams(formData);
+        window.location.href = `{{ url_for('main.rooms') }}?${params.toString()}`;
+    });
+
+    // Booking Modal Functions
+    function showBookingModal(roomId) {
+        document.getElementById('selectedRoomId').value = roomId;
+        
+        // Set default dates (tomorrow and day after tomorrow)
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const dayAfter = new Date();
+        dayAfter.setDate(dayAfter.getDate() + 2);
+        
+        document.getElementById('modalCheckIn').value = tomorrow.toISOString().split('T')[0];
+        document.getElementById('modalCheckOut').value = dayAfter.toISOString().split('T')[0];
+        
+        // Set minimum dates
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('modalCheckIn').min = today;
+        document.getElementById('modalCheckOut').min = tomorrow.toISOString().split('T')[0];
+        
+        document.getElementById('bookingModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hideBookingModal() {
+        document.getElementById('bookingModal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    function proceedToBooking() {
+        const roomId = document.getElementById('selectedRoomId').value;
+        const checkIn = document.getElementById('modalCheckIn').value;
+        const checkOut = document.getElementById('modalCheckOut').value;
+        const guests = document.getElementById('modalGuests').value;
+        
+        if (!checkIn || !checkOut) {
+            alert('Please select both check-in and check-out dates');
+            return;
+        }
+        
+        if (new Date(checkOut) <= new Date(checkIn)) {
+            alert('Check-out date must be after check-in date');
+            return;
+        }
+        
+        // Redirect to booking page with parameters
+        window.location.href = `/book/${roomId}?check_in=${checkIn}&check_out=${checkOut}&guests=${guests}`;
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('bookingModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            hideBookingModal();
+        }
+    });
+
+    // Update check-out min date when check-in changes
+    document.getElementById('modalCheckIn').addEventListener('change', function() {
+        const checkInDate = new Date(this.value);
+        const minCheckOut = new Date(checkInDate);
+        minCheckOut.setDate(minCheckOut.getDate() + 1);
+        document.getElementById('modalCheckOut').min = minCheckOut.toISOString().split('T')[0];
+        
+        // If current check-out is before new min, clear it
+        const currentCheckOut = document.getElementById('modalCheckOut').value;
+        if (currentCheckOut && new Date(currentCheckOut) <= checkInDate) {
+            document.getElementById('modalCheckOut').value = '';
+        }
+    });
+</script>
+{% endblock %}

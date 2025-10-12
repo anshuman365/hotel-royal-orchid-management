@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Response - Hotel Royal Orchid</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .email-container {
+            max-width: 700px;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2b6cb0, #2c5282);
+            padding: 50px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .content {
+            padding: 50px 40px;
+            color: #2d3748;
+        }
+        
+        .greeting {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .conversation-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 30px 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .review-section {
+            padding: 30px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .review-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .room-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        
+        .rating-stars {
+            color: #d4af37;
+            font-size: 1.2rem;
+        }
+        
+        .review-content {
+            line-height: 1.7;
+            color: #4a5568;
+        }
+        
+        .response-section {
+            padding: 30px;
+            background: linear-gradient(135deg, #ebf8ff, #bee3f8);
+            position: relative;
+        }
+        
+        .response-badge {
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #2b6cb0;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .response-content {
+            line-height: 1.7;
+            color: #2d3748;
+            font-size: 1.1rem;
+        }
+        
+        .manager-signature {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #90cdf4;
+        }
+        
+        .manager-name {
+            font-weight: 600;
+            color: #2b6cb0;
+            margin-bottom: 5px;
+        }
+        
+        .manager-title {
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        .commitment-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            border-radius: 15px;
+            border-left: 5px solid #38a169;
+        }
+        
+        .commitment-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .next-stay-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: white;
+            padding: 16px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            margin-top: 15px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+        
+        .footer {
+            background: #1a202c;
+            color: #a0aec0;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2rem; }
+            .content { padding: 30px 20px; }
+            .review-section, .response-section { padding: 20px; }
+            .cta-button { padding: 14px 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>💬 Management Response</h1>
+            <p>Hotel Royal Orchid - Executive Office</p>
+        </div>
+        
+        <div class="content">
+            <div class="greeting">
+                <p>Dear <strong>{{ review.user.name }}</strong>,</p>
+                <p>Our executive management team has personally reviewed your feedback and would like to respond to your valuable insights about your stay in our <strong>{{ review.room.name }}</strong>.</p>
+            </div>
+            
+            <div class="conversation-container">
+                <div class="review-section">
+                    <div class="review-header">
+                        <div class="room-name">{{ review.room.name }}</div>
+                        <div class="rating-stars">
+                            {{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        {% if review.title %}
+                        <div style="font-weight: 600; margin-bottom: 10px; color: #2d3748;">{{ review.title }}</div>
+                        {% endif %}
+                        <div>{{ review.comment }}</div>
+                    </div>
+                </div>
+                
+                <div class="response-section">
+                    <div class="response-badge">Management Response</div>
+                    <div class="response-content">
+                        {{ review.reply }}
+                    </div>
+                    <div class="manager-signature">
+                        <div class="manager-name">Mr. Rajesh Kumar</div>
+                        <div class="manager-title">General Manager</div>
+                        <div class="manager-title">Hotel Royal Orchid</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="commitment-section">
+                <div class="commitment-icon">🌟</div>
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 15px; color: #2d3748;">
+                    Our Commitment to Excellence
+                </h3>
+                <p style="color: #4a5568; line-height: 1.6;">
+                    Your feedback is instrumental in our continuous pursuit of perfection. 
+                    We are committed to implementing improvements that enhance every aspect of the Royal Orchid experience.
+                </p>
+            </div>
+            
+            <div class="next-stay-section">
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 15px; color: #2d3748;">
+                    Experience the Enhanced Royal Orchid
+                </h3>
+                <p style="color: #4a5568; margin-bottom: 20px;">
+                    We would be honored to welcome you back and demonstrate our commitment to exceptional service.
+                </p>
+                <a href="{{ url_for('main.rooms', _external=True) }}" class="cta-button">
+                    Book Your Next Luxury Stay
+                </a>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="color: #4a5568; font-style: italic;">
+                    "Where every guest is royalty, and every stay is a masterpiece."
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-logo">Hotel Royal Orchid</div>
+            <div style="margin: 20px 0; line-height: 1.8;">
+                📍 Luxury Street, Golden District<br>
+                📞 +91 98765 43210<br>
+                ✉️ executiveoffice@royalorchid.com
+            </div>
+            <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">
+                © 2025 Hotel Royal Orchid. Luxury Redefined Since 1995.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

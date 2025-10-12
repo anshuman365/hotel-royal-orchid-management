@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}AI Offer Suggestions - Hotel Royal Orchid Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">AI Offer Suggestions</h1>
+                <p class="text-gray-600">AI-powered personalized offer recommendations</p>
+            </div>
+            <div class="text-sm text-gray-500">
+                {{ booking_trends.total_users }} active guests
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Trends -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+            <div class="text-2xl font-bold text-blue-600 mb-2">{{ booking_trends.total_users }}</div>
+            <p class="text-gray-600">Active Guests</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+            <div class="text-2xl font-bold text-green-600 mb-2">{{ booking_trends.frequent_travelers }}</div>
+            <p class="text-gray-600">Frequent Travelers</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+            <div class="text-2xl font-bold text-purple-600 mb-2">{{ "%.1f"|format(booking_trends.average_bookings) }}</div>
+            <p class="text-gray-600">Avg Bookings per User</p>
+        </div>
+    </div>
+
+    <!-- AI Suggestions -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h3 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+            <i class="fas fa-lightbulb text-amber-500 mr-2"></i>
+            AI-Generated Offer Suggestions
+        </h3>
+
+        {% if suggestions %}
+        <div class="space-y-4">
+            {% for suggestion in suggestions %}
+            <div class="flex items-start p-4 bg-amber-50 rounded-lg border-l-4 border-amber-500">
+                <i class="fas fa-bullseye text-amber-600 mt-1 mr-3"></i>
+                <div class="flex-1">
+                    <p class="text-gray-800">{{ suggestion }}</p>
+                    <div class="flex space-x-4 mt-2">
+                        <button class="text-sm text-amber-600 hover:text-amber-700 font-medium">
+                            <i class="fas fa-plus mr-1"></i> Create Offer
+                        </button>
+                        <button class="text-sm text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-copy mr-1"></i> Copy Suggestion
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <i class="fas fa-robot text-4xl text-gray-300 mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">No AI Suggestions Available</h3>
+            <p class="text-gray-500">AI offer suggestions will appear here based on guest behavior and booking patterns.</p>
+            <button class="mt-4 bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700 transition duration-300">
+                <i class="fas fa-sync mr-2"></i> Refresh Analysis
+            </button>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <h4 class="text-lg font-semibold text-gray-800 mb-4">AI Offer Tools</h4>
+            <div class="space-y-3">
+                <button class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-between">
+                    <span>Generate Seasonal Offers</span>
+                    <i class="fas fa-magic"></i>
+                </button>
+                <button class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition duration-300 flex items-center justify-between">
+                    <span>Create VIP Offers</span>
+                    <i class="fas fa-crown"></i>
+                </button>
+                <button class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg hover:bg-purple-700 transition duration-300 flex items-center justify-between">
+                    <span>Last-Minute Deals</span>
+                    <i class="fas fa-bolt"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <h4 class="text-lg font-semibold text-gray-800 mb-4">Performance Prediction</h4>
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>New User Offers</span>
+                        <span class="font-medium">78% Success Rate</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-600 h-2 rounded-full" style="width: 78%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Weekend Specials</span>
+                        <span class="font-medium">65% Success Rate</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-amber-500 h-2 rounded-full" style="width: 65%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Loyalty Rewards</span>
+                        <span class="font-medium">92% Success Rate</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-purple-600 h-2 rounded-full" style="width: 92%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - Hotel Royal Orchid{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+    .metric-card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .metric-card:hover {
+        transform: translateY(-2px);
+    }
+    .progress-bar {
+        background: linear-gradient(90deg, #3B82F6, #1D4ED8);
+    }
+    .offer-effectiveness {
+        width: 100%;
+        height: 8px;
+        background-color: #E5E7EB;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .effectiveness-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-6">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Analytics & Reports</h1>
+                <p class="text-gray-600">Hotel performance and business insights</p>
+            </div>
+<!-- Add this to analytics.html in the header section -->
+<div class="flex space-x-4">
+    <span class="text-sm text-gray-500">
+        Data from {{ thirty_days_ago.strftime('%b %d, %Y') }} to {{ today.strftime('%b %d, %Y') }}
+    </span>
+    <a href="{{ url_for('admin.ai_insights') }}" 
+       class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-indigo-700 transition duration-300 flex items-center">
+        <i class="fas fa-brain mr-2"></i> AI Insights
+    </a>
+</div>
+        </div>
+    </div>
+</div>
+
+<!-- Analytics Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Key Metrics -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-2xl shadow-lg p-6 metric-card">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-amber-600 mb-2">₹{{ "{:,.0f}".format(total_revenue) }}</div>
+                <p class="text-sm text-gray-600">Total Revenue (30 days)</p>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-lg p-6 metric-card">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-green-600 mb-2">{{ total_bookings }}</div>
+                <p class="text-sm text-gray-600">Total Bookings</p>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-lg p-6 metric-card">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-blue-600 mb-2">{{ occupancy_rate }}%</div>
+                <p class="text-sm text-gray-600">Occupancy Rate</p>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-lg p-6 metric-card">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-purple-600 mb-2">{{ avg_rating }}/5</div>
+                <p class="text-sm text-gray-600">Average Rating</p>
+            </div>
+        </div>
+    </div>
+
+<!-- Add this to the Charts section in analytics.html -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <!-- Revenue Chart -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">Revenue Overview</h3>
+            <button id="exportRevenueChart" class="text-amber-600 hover:text-amber-700 text-sm font-medium">
+                <i class="fas fa-download mr-1"></i>Export
+            </button>
+        </div>
+        <div class="h-64">
+            <canvas id="revenueChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Occupancy Chart -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">Occupancy Trend</h3>
+            <button id="exportOccupancyChart" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                <i class="fas fa-download mr-1"></i>Export
+            </button>
+        </div>
+        <div class="h-64">
+            <canvas id="occupancyChart"></canvas>
+        </div>
+    </div>
+</div>
+
+    <!-- Room Performance -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Room Performance (Last 30 Days)</h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Room Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bookings</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revenue</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Occupancy</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg. Rating</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for room in room_performance %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ room.name }}</div>
+                            <div class="text-sm text-gray-500 capitalize">{{ room.type.replace('_', ' ') }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ room.bookings }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{{ "{:,.0f}".format(room.revenue) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: {{ room.occupancy }}%"></div>
+                                </div>
+                                <span class="text-sm text-gray-600">{{ "%.1f"|format(room.occupancy) }}%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <span class="text-sm font-medium text-gray-900 mr-2">{{ "%.1f"|format(room.rating) }}</span>
+                                <div class="flex">
+                                    {% for i in range(5) %}
+                                        {% if i < room.rating|int %}
+                                            <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        {% else %}
+                                            <i class="far fa-star text-gray-300 text-xs"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Offer Performance Analytics -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Offer Performance Analytics</h3>
+        
+        {% if offer_analytics %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Offer</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usage</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recent Usage</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Effectiveness</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for analytics in offer_analytics %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ analytics.offer.code }}</div>
+                            <div class="text-sm text-gray-500">{{ analytics.offer.name }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ analytics.offer.used_count }}{% if analytics.offer.usage_limit %} / {{ analytics.offer.usage_limit }}{% endif %}
+                            {% if analytics.usage_rate > 0 %}
+                            <div class="text-xs text-gray-500">{{ "%.1f"|format(analytics.usage_rate) }}% used</div>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ analytics.recent_usage }} uses (30 days)
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="offer-effectiveness mr-2">
+                                    <div class="effectiveness-fill 
+                                        {% if analytics.effectiveness >= 70 %}bg-green-500
+                                        {% elif analytics.effectiveness >= 40 %}bg-yellow-500
+                                        {% else %}bg-red-500{% endif %}"
+                                        style="width: {{ analytics.effectiveness }}%">
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-600">{{ "%.0f"|format(analytics.effectiveness) }}%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                {% if analytics.status == 'Active' %}bg-green-100 text-green-800
+                                {% elif analytics.status == 'Expired' %}bg-red-100 text-red-800
+                                {% elif analytics.status == 'Inactive' %}bg-gray-100 text-gray-800
+                                {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                {{ analytics.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Offer Insights -->
+        {% if offer_insights %}
+            {% if offer_insights.top_performing_offers or offer_insights.underperforming_offers %}
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Top Performing Offers -->
+                {% if offer_insights.top_performing_offers %}
+                <div class="bg-green-50 rounded-lg p-4">
+                    <h4 class="text-sm font-semibold text-green-800 mb-2">
+                        <i class="fas fa-trophy mr-1"></i> Top Performing Offers
+                    </h4>
+                    <ul class="text-sm text-green-700">
+                        {% for offer_data in offer_insights.top_performing_offers[:3] %}
+                        <li class="mb-1">• {{ offer_data.offer.name }} ({{ "%.0f"|format(offer_data.effectiveness) }}% effective)</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                <!-- Underperforming Offers -->
+                {% if offer_insights.underperforming_offers %}
+                <div class="bg-red-50 rounded-lg p-4">
+                    <h4 class="text-sm font-semibold text-red-800 mb-2">
+                        <i class="fas fa-exclamation-triangle mr-1"></i> Needs Attention
+                    </h4>
+                    <ul class="text-sm text-red-700">
+                        {% for offer_data in offer_insights.underperforming_offers[:3] %}
+                        <li class="mb-1">• {{ offer_data.offer.name }} ({{ "%.0f"|format(offer_data.effectiveness) }}% effective)</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <!-- Recommendations -->
+            {% if offer_insights.recommendations %}
+            <div class="mt-4 bg-blue-50 rounded-lg p-4">
+                <h4 class="text-sm font-semibold text-blue-800 mb-2">
+                    <i class="fas fa-lightbulb mr-1"></i> Recommendations
+                </h4>
+                <ul class="text-sm text-blue-700">
+                    {% for recommendation in offer_insights.recommendations %}
+                    <li class="mb-1">• {{ recommendation }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-8">
+            <i class="fas fa-chart-pie text-4xl text-gray-300 mb-2"></i>
+            <p class="text-gray-500">No offer analytics available yet.</p>
+            <p class="text-sm text-gray-400">Offer performance data will appear here once offers are created and used.</p>
+        </div>
+        {% endif %}
+    </div>
+
+<!-- Update Export Reports section -->
+<div class="bg-white rounded-2xl shadow-lg p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Export Reports</h3>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <a href="{{ url_for('admin.export_bookings') }}" class="bg-amber-600 text-white p-4 rounded-lg hover:bg-amber-700 transition duration-300 text-center metric-card">
+            <i class="fas fa-file-csv text-2xl mb-2"></i>
+            <div class="font-medium">Bookings CSV</div>
+            <div class="text-sm opacity-80">Detailed data</div>
+        </a>
+        
+        <a href="{{ url_for('admin.export_revenue_pdf') }}" class="bg-red-600 text-white p-4 rounded-lg hover:bg-red-700 transition duration-300 text-center metric-card">
+            <i class="fas fa-file-pdf text-2xl mb-2"></i>
+            <div class="font-medium">Revenue PDF</div>
+            <div class="text-sm opacity-80">Formatted report</div>
+        </a>
+        
+        <a href="{{ url_for('admin.export_guest_excel') }}" class="bg-green-600 text-white p-4 rounded-lg hover:bg-green-700 transition duration-300 text-center metric-card">
+            <i class="fas fa-file-excel text-2xl mb-2"></i>
+            <div class="font-medium">Guest Excel</div>
+            <div class="text-sm opacity-80">Spreadsheet</div>
+        </a>
+        
+        <a href="{{ url_for('admin.export_csv_report') }}" class="bg-blue-600 text-white p-4 rounded-lg hover:bg-blue-700 transition duration-300 text-center metric-card">
+            <i class="fas fa-chart-bar text-2xl mb-2"></i>
+            <div class="font-medium">Analytics CSV</div>
+            <div class="text-sm opacity-80">Raw data</div>
+        </a>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function generateRevenueReport() {
+    alert('Revenue report generation will be implemented with a PDF library');
+    // Implementation for PDF generation would go here
+}
+
+function generateGuestReport() {
+    alert('Guest report generation will be implemented with Excel export');
+    // Implementation for Excel export would go here
+}
+
+// Simple animation for metric cards
+document.addEventListener('DOMContentLoaded', function() {
+    const metricCards = document.querySelectorAll('.metric-card');
+    metricCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.classList.add('animate-fade-in-up');
+    });
+    
+    // Animate effectiveness bars
+    const effectivenessBars = document.querySelectorAll('.effectiveness-fill');
+    effectivenessBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+            bar.style.width = width;
+        }, 300);
+    });
+});
+</script>
+
+<style>
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out forwards;
+}
+</style>
+{% endblock %}

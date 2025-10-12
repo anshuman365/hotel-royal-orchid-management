@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}{% if room %}Edit Room{% else %}Add New Room{% endif %} - Hotel Royal Orchid{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-6">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">
+                    {% if room %}Edit Room: {{ room.name }}{% else %}Add New Room{% endif %}
+                </h1>
+                <p class="text-gray-600">{% if room %}Update room details{% else %}Create a new room entry{% endif %}</p>
+            </div>
+            <a href="{{ url_for('admin.manage_rooms') }}" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-300">
+                Back to Rooms
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Room Form -->
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+        <form method="POST" action="{% if room %}{{ url_for('admin.edit_room', room_id=room.id) }}{% else %}{{ url_for('admin.add_room') }}{% endif %}">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Room Name *</label>
+                    <input type="text" name="name" value="{{ room.name if room }}" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent" 
+                           placeholder="e.g., Deluxe Ocean View">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Room Type *</label>
+                    <select name="room_type" required 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
+                        <option value="">Select Room Type</option>
+                        <option value="Standard" {% if room and room.room_type == 'Standard' %}selected{% endif %}>Standard</option>
+                        <option value="Deluxe" {% if room and room.room_type == 'Deluxe' %}selected{% endif %}>Deluxe</option>
+                        <option value="Suite" {% if room and room.room_type == 'Suite' %}selected{% endif %}>Suite</option>
+                        <option value="Executive" {% if room and room.room_type == 'Executive' %}selected{% endif %}>Executive</option>
+                        <option value="Presidential" {% if room and room.room_type == 'Presidential' %}selected{% endif %}>Presidential</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Price per Night (₹) *</label>
+                    <input type="number" name="price" step="0.01" value="{{ room.price if room }}" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent" 
+                           placeholder="e.g., 8999.00">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Capacity (Guests) *</label>
+                    <input type="number" name="capacity" value="{{ room.capacity if room else 2 }}" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent" 
+                           min="1" max="10">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Room Size (sq ft)</label>
+                    <input type="text" name="size" value="{{ room.size if room }}" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent" 
+                           placeholder="e.g., 450 sq ft">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                    <select name="status" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
+                        <option value="available" {% if not room or room.status == 'available' %}selected{% endif %}>Available</option>
+                        <option value="maintenance" {% if room and room.status == 'maintenance' %}selected{% endif %}>Maintenance</option>
+                        <option value="occupied" {% if room and room.status == 'occupied' %}selected{% endif %}>Occupied</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Max Adults</label>
+                    <input type="number" name="max_adults" value="{{ room.max_adults if room else 2 }}" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent" 
+                           min="1" max="6">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Max Children</label>
+                    <input type="number" name="max_children" value="{{ room.max_children if room else 2 }}" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent" 
+                           min="0" max="4">
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Amenities</label>
+                <textarea name="amenities" rows="3" 
+                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent" 
+                          placeholder="List amenities separated by commas (e.g., Free WiFi, Air Conditioning, Smart TV, Mini Bar)">{{ room.amenities if room }}</textarea>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea name="description" rows="4" 
+                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent" 
+                          placeholder="Describe the room features, view, and special characteristics...">{{ room.description if room }}</textarea>
+            </div>
+
+            <div class="flex space-x-4">
+                <a href="{{ url_for('admin.manage_rooms') }}" 
+                   class="flex-1 bg-gray-600 text-white text-center py-4 rounded-lg hover:bg-gray-700 transition duration-300 font-semibold">
+                    Cancel
+                </a>
+                <button type="submit" 
+                        class="flex-1 bg-amber-600 text-white py-4 rounded-lg hover:bg-amber-700 transition duration-300 font-semibold">
+                    {% if room %}Update Room{% else %}Create Room{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Room Types Information -->
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+    <div class="bg-gray-50 rounded-2xl p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Room Types Guide</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+                <strong>Standard:</strong> Basic comfort, essential amenities
+            </div>
+            <div>
+                <strong>Deluxe:</strong> Enhanced space and premium amenities
+            </div>
+            <div>
+                <strong>Suite:</strong> Separate living area, luxury features
+            </div>
+            <div>
+                <strong>Executive:</strong> Business-friendly, workspace included
+            </div>
+            <div>
+                <strong>Presidential:</strong> Ultimate luxury, maximum space
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

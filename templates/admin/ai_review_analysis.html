@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}AI Review Analysis - Hotel Royal Orchid Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .sentiment-positive { border-left-color: #10B981; background-color: #ECFDF5; }
+    .sentiment-negative { border-left-color: #EF4444; background-color: #FEF2F2; }
+    .sentiment-neutral { border-left-color: #6B7280; background-color: #F9FAFB; }
+    
+    .urgency-high { background: linear-gradient(135deg, #FEE2E2, #FECACA); }
+    .urgency-medium { background: linear-gradient(135deg, #FEF3C7, #FDE68A); }
+    .urgency-low { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">AI Review Analysis</h1>
+                <p class="text-gray-600">AI-powered sentiment analysis and response suggestions</p>
+            </div>
+            <div class="text-sm text-gray-500">
+                {{ total_pending }} pending reviews
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Analysis Results -->
+    <div class="space-y-6">
+        {% for item in review_analyses %}
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">
+                        Review #{{ item.review.id }} - {{ item.review.rating }}/5 Stars
+                    </h3>
+                    <p class="text-gray-600">By {{ item.review.user.name }} • {{ item.review.created_at.strftime('%b %d, %Y') }}</p>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="generateResponse({{ item.review.id }})" 
+                            class="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition duration-300">
+                        <i class="fas fa-robot mr-1"></i> AI Response
+                    </button>
+                    <a href="{{ url_for('admin.approve_review', review_id=item.review.id) }}" 
+                       class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+                        Approve
+                    </a>
+                </div>
+            </div>
+
+            <!-- Review Content -->
+            <div class="mb-4 p-4 bg-gray-50 rounded-lg">
+                <p class="text-gray-800">{{ item.review.comment }}</p>
+            </div>
+
+            <!-- AI Analysis -->
+            {% if item.analysis and item.analysis != "AI insights temporarily unavailable" %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Sentiment Analysis -->
+                <div class="sentiment-{{ item.analysis.sentiment }} p-4 rounded-lg border-l-4">
+                    <h4 class="font-semibold mb-2">Sentiment Analysis</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span>Sentiment:</span>
+                            <span class="font-medium capitalize">{{ item.analysis.sentiment }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Score:</span>
+                            <span class="font-medium">{{ item.analysis.sentiment_score }}/10</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Urgency:</span>
+                            <span class="font-medium capitalize">{{ item.analysis.urgency_level }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Points -->
+                <div class="space-y-3">
+                    {% if item.analysis.key_positive_points %}
+                    <div>
+                        <h5 class="font-semibold text-green-700 mb-1">Positive Points:</h5>
+                        <ul class="text-sm text-green-600 list-disc list-inside">
+                            {% for point in item.analysis.key_positive_points[:3] %}
+                            <li>{{ point }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if item.analysis.key_negative_points %}
+                    <div>
+                        <h5 class="font-semibold text-red-700 mb-1">Areas for Improvement:</h5>
+                        <ul class="text-sm text-red-600 list-disc list-inside">
+                            {% for point in item.analysis.key_negative_points[:3] %}
+                            <li>{{ point }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Response Suggestions -->
+            {% if item.analysis.response_suggestions %}
+            <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                <h4 class="font-semibold text-blue-800 mb-2">AI Response Suggestions:</h4>
+                <ul class="text-sm text-blue-700 space-y-1">
+                    {% for suggestion in item.analysis.response_suggestions[:2] %}
+                    <li>• {{ suggestion }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="text-center py-4 text-gray-500">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                AI analysis unavailable for this review
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <i class="fas fa-check-circle text-4xl text-green-500 mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-700">No pending reviews!</h3>
+            <p class="text-gray-500">All reviews have been processed.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function generateResponse(reviewId) {
+    try {
+        const response = await fetch(`/review/${reviewId}/ai-response`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({})
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Show response in modal or alert
+            alert('AI Response Generated:\n\n' + data.response);
+        } else {
+            alert('Failed to generate AI response: ' + data.error);
+        }
+    } catch (error) {
+        alert('Error generating AI response: ' + error.message);
+    }
+}
+</script>
+{% endblock %}

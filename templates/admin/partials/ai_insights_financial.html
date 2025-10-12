@@ -1,0 +1,61 @@
+<!-- templates/admin/partials/ai_insights_financial.html -->
+<div class="row">
+    <div class="col-12">
+        <div class="analysis-section">
+            <h4><i class="fas fa-money-bill-wave text-success mr-2"></i>Financial Analysis</h4>
+            
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value">₹{{ business_data.basic_metrics.total_revenue|round|int }}</div>
+                    <div class="metric-label">Total Revenue</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">₹{{ business_data.basic_metrics.average_booking_value|round|int }}</div>
+                    <div class="metric-label">Avg Booking Value</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">{{ business_data.customer_metrics.repeat_rate|round(1) }}%</div>
+                    <div class="metric-label">Repeat Customer Rate</div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <h5 class="text-purple">Revenue Breakdown by Room Type</h5>
+                <div class="row">
+                    {% for room_type, revenue in business_data.revenue_breakdown.items() %}
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex justify-content-between align-items-center p-3 border rounded">
+                            <strong>{{ room_type|title }}</strong>
+                            <span class="text-success">₹{{ revenue|round|int }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <h5 class="text-info">Monthly Trends</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Bookings</th>
+                                <th>Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for trend in business_data.trends %}
+                            <tr>
+                                <td>{{ trend.month }}</td>
+                                <td>{{ trend.bookings }}</td>
+                                <td>₹{{ trend.revenue|round|int }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

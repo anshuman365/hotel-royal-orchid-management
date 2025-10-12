@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}Add Review - {{ room.name }} - Hotel Royal Orchid{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gray-900 py-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-white">
+            <nav class="flex items-center space-x-2 text-sm mb-6">
+                <a href="{{ url_for('main.index') }}" class="hover:text-amber-400">Home</a>
+                <span class="text-gray-400">/</span>
+                <a href="{{ url_for('main.room_detail', room_id=room.id) }}" class="hover:text-amber-400">{{ room.name }}</a>
+                <span class="text-gray-400">/</span>
+                <span class="text-amber-400">Add Review</span>
+            </nav>
+            
+            <h1 class="text-4xl font-serif font-bold mb-4" data-aos="fade-up">Share Your Experience</h1>
+            <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="200">
+                Tell us about your stay in {{ room.name }}
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Review Form -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="bg-white rounded-2xl shadow-lg p-8" data-aos="fade-up">
+            <!-- Booking Info -->
+            <div class="flex items-center mb-8 p-4 bg-amber-50 rounded-lg">
+                <img src="{{ url_for('static', filename='images/rooms/room-' + room.id|string + '.jpg') }}" 
+                     alt="{{ room.name }}" class="w-16 h-16 object-cover rounded-lg mr-4">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800">{{ room.name }}</h2>
+                    <p class="text-gray-600">Stayed from {{ booking.check_in.strftime('%b %d, %Y') }} to {{ booking.check_out.strftime('%b %d, %Y') }}</p>
+                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mt-1">
+                        ✓ Verified Stay
+                    </span>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ url_for('reviews.add_review', room_id=room.id) }}" id="reviewForm">
+                <!-- Overall Rating -->
+                <div class="mb-8">
+                    <label class="block text-lg font-semibold text-gray-800 mb-4">Overall Rating</label>
+                    <div class="flex space-x-1 mb-2" id="rating-stars">
+                        {% for i in range(5, 0, -1) %}
+                        <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" class="hidden" required>
+                        <label for="star{{ i }}" class="text-3xl cursor-pointer text-gray-300 hover:text-amber-400 transition-colors duration-200 transform hover:scale-110">
+                            ★
+                        </label>
+                        {% endfor %}
+                    </div>
+                    <div id="rating-text" class="text-sm text-gray-500 mt-2">Select your overall rating</div>
+                </div>
+
+                <!-- Detailed Ratings -->
+                <div class="mb-8">
+                    <label class="block text-lg font-semibold text-gray-800 mb-4">Rate Your Experience</label>
+                    <div class="space-y-4">
+                        <!-- Cleanliness -->
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-700 font-medium">Cleanliness</span>
+                            <div class="flex space-x-1" id="cleanliness-stars">
+                                {% for i in range(5, 0, -1) %}
+                                <input type="radio" id="cleanliness{{ i }}" name="cleanliness_rating" value="{{ i }}" class="hidden">
+                                <label for="cleanliness{{ i }}" class="text-xl cursor-pointer text-gray-300 hover:text-amber-400 transition-colors">
+                                    ★
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Comfort -->
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-700 font-medium">Comfort</span>
+                            <div class="flex space-x-1" id="comfort-stars">
+                                {% for i in range(5, 0, -1) %}
+                                <input type="radio" id="comfort{{ i }}" name="comfort_rating" value="{{ i }}" class="hidden">
+                                <label for="comfort{{ i }}" class="text-xl cursor-pointer text-gray-300 hover:text-amber-400 transition-colors">
+                                    ★
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-700 font-medium">Location</span>
+                            <div class="flex space-x-1" id="location-stars">
+                                {% for i in range(5, 0, -1) %}
+                                <input type="radio" id="location{{ i }}" name="location_rating" value="{{ i }}" class="hidden">
+                                <label for="location{{ i }}" class="text-xl cursor-pointer text-gray-300 hover:text-amber-400 transition-colors">
+                                    ★
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Amenities -->
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-700 font-medium">Amenities</span>
+                            <div class="flex space-x-1" id="amenities-stars">
+                                {% for i in range(5, 0, -1) %}
+                                <input type="radio" id="amenities{{ i }}" name="amenities_rating" value="{{ i }}" class="hidden">
+                                <label for="amenities{{ i }}" class="text-xl cursor-pointer text-gray-300 hover:text-amber-400 transition-colors">
+                                    ★
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Service -->
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-700 font-medium">Service</span>
+                            <div class="flex space-x-1" id="service-stars">
+                                {% for i in range(5, 0, -1) %}
+                                <input type="radio" id="service{{ i }}" name="service_rating" value="{{ i }}" class="hidden">
+                                <label for="service{{ i }}" class="text-xl cursor-pointer text-gray-300 hover:text-amber-400 transition-colors">
+                                    ★
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Title -->
+                <div class="mb-6">
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                        Review Title <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="title" name="title" required maxlength="200"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
+                           placeholder="Summarize your experience in a few words">
+                    <div class="text-xs text-gray-500 mt-1 text-right">
+                        <span id="title-counter">0</span>/200 characters
+                    </div>
+                </div>
+
+                <!-- Review Comment -->
+                <div class="mb-6">
+                    <label for="comment" class="block text-sm font-medium text-gray-700 mb-2">
+                        Your Review <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="comment" name="comment" rows="6" required
+                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
+                              placeholder="Share details of your experience... What did you like? What could be improved?"></textarea>
+                    <div class="text-xs text-gray-500 mt-1">
+                        Tip: Be specific about what you enjoyed and any areas for improvement.
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="flex space-x-4">
+                    <a href="{{ url_for('main.room_detail', room_id=room.id) }}" 
+                       class="flex-1 bg-gray-300 text-gray-700 text-center py-3 rounded-lg hover:bg-gray-400 transition duration-300 font-semibold">
+                        Cancel
+                    </a>
+                    <button type="submit" id="submit-btn"
+                            class="flex-1 bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 transition duration-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
+                        Submit Review
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Review Guidelines -->
+        <div class="mt-8 bg-blue-50 rounded-2xl p-6" data-aos="fade-up">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Review Guidelines</h3>
+            <ul class="text-sm text-gray-600 space-y-2">
+                <li>✓ Be honest and specific about your experience</li>
+                <li>✓ Focus on the room, amenities, and service</li>
+                <li>✓ Avoid personal information or offensive language</li>
+                <li>✓ Your review will be marked as "Verified Stay"</li>
+                <li>✓ Reviews are moderated and may take 24-48 hours to appear</li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Overall rating stars
+        const overallStars = document.querySelectorAll('#rating-stars input');
+        const ratingText = document.getElementById('rating-text');
+        
+        const ratings = {
+            1: 'Poor - Very disappointed',
+            2: 'Fair - Some issues',
+            3: 'Good - Met expectations',
+            4: 'Very Good - Enjoyed the stay',
+            5: 'Excellent - Beyond expectations'
+        };
+        
+        // Initialize all detailed ratings to 5 stars
+        initializeDetailedRatings();
+        
+        // Overall rating handler
+        overallStars.forEach(star => {
+            star.addEventListener('change', function() {
+                const rating = this.value;
+                updateRatingText(ratingText, ratings[rating], rating);
+                updateStars(overallStars, rating);
+                validateForm();
+            });
+        });
+        
+        // Title character counter
+        const titleInput = document.getElementById('title');
+        const titleCounter = document.getElementById('title-counter');
+        
+        titleInput.addEventListener('input', function() {
+            titleCounter.textContent = this.value.length;
+            validateForm();
+        });
+        // Comment field validation
+        document.getElementById('comment').addEventListener('input', validateForm);
+        
+        // Detailed ratings handlers
+        setupDetailedRating('cleanliness');
+        setupDetailedRating('comfort');
+        setupDetailedRating('location');
+        setupDetailedRating('amenities');
+        setupDetailedRating('service');
+        
+        function initializeDetailedRatings() {
+            // Set all detailed ratings to 5 by default
+            document.querySelectorAll('[id$="-stars"] input').forEach(input => {
+                if (input.value === '5') {
+                    input.checked = true;
+                    const label = document.querySelector(`label[for="${input.id}"]`);
+                    label.classList.add('text-amber-400');
+                    label.classList.remove('text-gray-300');
+                }
+            });
+        }
+        
+        function setupDetailedRating(type) {
+            const stars = document.querySelectorAll(`#${type}-stars input`);
+            stars.forEach(star => {
+                star.addEventListener('change', function() {
+                    const rating = this.value;
+                    updateStars(stars, rating);
+                });
+            });
+        }
+        
+        function updateStars(stars, rating) {
+            stars.forEach(s => {
+                const label = document.querySelector(`label[for="${s.id}"]`);
+                if (s.value <= rating) {
+                    label.classList.add('text-amber-400');
+                    label.classList.remove('text-gray-300');
+                } else {
+                    label.classList.add('text-gray-300');
+                    label.classList.remove('text-amber-400');
+                }
+            });
+        }
+        
+        function updateRatingText(element, text, rating) {
+            element.textContent = text;
+            element.className = 'text-sm font-medium mt-2 ' + 
+                (rating >= 4 ? 'text-green-600' : 
+                 rating >= 3 ? 'text-amber-600' : 'text-red-600');
+        }
+        
+        function validateForm() {
+            const overallRating = document.querySelector('input[name="rating"]:checked');
+            const title = titleInput.value.trim();
+            const comment = document.getElementById('comment').value.trim();
+            const submitBtn = document.getElementById('submit-btn');
+            
+            const isValid = overallRating && title.length > 0 && comment.length > 0;
+            submitBtn.disabled = !isValid;
+        }
+        
+        // Initial validation
+        validateForm();
+    });
+</script>
+{% endblock %}
