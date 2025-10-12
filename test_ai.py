@@ -7,7 +7,7 @@ def test_openrouter_connection():
     """Test the OpenRouter API connection directly"""
     
     # Test configuration
-    api_key = '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'
+    api_key = ''
     base_url = 'https://openrouter.ai/api/v1/chat/completions'
     model = 'anthropic/claude-3-sonnet'
     
@@ -70,7 +70,7 @@ def test_alternative_models():
         'microsoft/wizardlm-2-8x22b'
     ]
     
-    api_key = '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'
+    api_key = ''
     base_url = 'https://openrouter.ai/api/v1/chat/completions'
     
     for model in models_to_test:

@@ -16,16 +16,16 @@ class Config:
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 587)
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'nexoraindustries@gmail.com')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'qvwi hqax ehqx hsgw')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'password')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER') or 'noreply@hotelroyalorchid.com'
     
     # Payment Gateway (Razorpay)
-    RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_3zY0ARX7fQKOSi')
-    RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'gDUS0jdD0zznPsBotkLZP86O')
-    RAZORPAY_WEBHOOK_SECRET = os.environ.get('RAZORPAY_WEBHOOK_SECRET', 'https://dashboard.razorpay.com/app/webhooks/R5urfmItUI9YzP')
+    RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_key')
+    RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'test_secrete_key')
+    RAZORPAY_WEBHOOK_SECRET = os.environ.get('RAZORPAY_WEBHOOK_SECRET', 'https://dashboard.razorpay.com/app/webhooks/random')
     
     # SMS Gateway (MSG91)
-    MSG91_AUTH_KEY = os.environ.get('MSG91_AUTH_KEY') or '473054AvNghc6jzya968e9f254P1'
+    MSG91_AUTH_KEY = os.environ.get('MSG91_AUTH_KEY') or 'key'
     MSG91_SENDER_ID = os.environ.get('MSG91_SENDER_ID') or 'HOTELR'
     
     # JWT Config
@@ -40,7 +40,7 @@ class Config:
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'admin@hotelroyalorchid.com'
     
     # AI Configuration - NEW
-    OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY') or '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'
+    OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY') or 'openrouter_API_key'
     OPENROUTER_MODEL = os.environ.get('OPENROUTER_MODEL') or 'openai/gpt-3.5-turbo'
     OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1/chat/completions'
 
