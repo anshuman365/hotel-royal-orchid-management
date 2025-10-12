@@ -2,6 +2,9 @@
 
 A modern, AI-powered hotel management system built with Flask featuring comprehensive booking management, payment processing, and intelligent analytics.
 
+![Hotel Management](https://img.shields.io/badge/Flask-2.3.3-blue)
+![Python](https://img.shields.io/badge/Python-3.8%2B-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ## ✨ Features
 
@@ -54,8 +57,10 @@ flask db upgrade
 flask run
 ```
 
-### Environment Setup
-Create `.env` file:
+## Environment Setup
+
+Create .env file:
+
 ```env
 SECRET_KEY=your-secret-key
 DATABASE_URL=sqlite:///hotel.db
@@ -65,6 +70,7 @@ MAIL_USE_TLS=true
 ```
 
 ## 📁 Project Structure
+
 ```
 hotel_royal_orchid/
 ├── blueprints/          # Flask blueprints
@@ -78,30 +84,36 @@ hotel_royal_orchid/
 
 ## 🎯 Usage
 
-### For Guests
+For Guests
+
 1. Browse available rooms
 2. Make reservations
 3. Process payments
 4. Submit reviews
 
-### For Administrators
+For Administrators
+
 1. Access admin dashboard
 2. Manage bookings & rooms
 3. View AI analytics
 4. Generate reports
 
 ## 🤝 Contributing
+
 We welcome contributions! Please feel free to submit pull requests or open issues for bugs and feature requests.
 
 ## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 👨‍💻 Author
-**Anshuman**
-- GitHub: [@anshuman365](https://github.com/anshuman365)
+
+Anshuman
+
+· GitHub: @anshuman365
 
 ## 🙏 Acknowledgments
-- Flask community
-- AI/ML libraries used
-- Template designers
 
+· Flask community
+· AI/ML libraries used
+· Template designers
