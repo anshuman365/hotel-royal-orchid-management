@@ -1,3 +1,5 @@
+# © 2025 Anshuman Singh. All Rights Reserved.
+# Unauthorized use prohibited.
 import os
 import secrets
 from PIL import Image

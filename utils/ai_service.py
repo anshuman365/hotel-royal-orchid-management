@@ -1,4 +1,6 @@
 # ai_service.py - UPDATED VERSION
+# © 2025 Anshuman Singh. All Rights Reserved.
+# Unauthorized use prohibited.
 import requests
 import json
 from flask import current_app

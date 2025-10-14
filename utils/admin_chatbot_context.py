@@ -1,3 +1,5 @@
+# © 2025 Anshuman Singh. All Rights Reserved.
+# Unauthorized use prohibited.
 # utils/admin_chatbot_context.py
 from datetime import datetime, timedelta
 from app import db

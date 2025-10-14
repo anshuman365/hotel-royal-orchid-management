@@ -1,3 +1,5 @@
+# © 2025 Anshuman Singh. All Rights Reserved.
+# Unauthorized use prohibited.
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, current_app
 from flask_login import login_required, current_user
 from app import db

@@ -1,3 +1,5 @@
+# © 2025 Anshuman Singh. All Rights Reserved.
+# Unauthorized use prohibited.
 import re
 from flask import current_app
 from itsdangerous import URLSafeTimedSerializer

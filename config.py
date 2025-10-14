@@ -1,3 +1,5 @@
+# © 2025 Anshuman Singh. All Rights Reserved.
+# Unauthorized use prohibited.
 import os
 from datetime import timedelta
 from dotenv import load_dotenv

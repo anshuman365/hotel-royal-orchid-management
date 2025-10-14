@@ -41,6 +41,9 @@ A modern, AI-powered hotel management system built with Flask featuring comprehe
 - Python 3.8+
 - pip package manager
 
+#### ⚠️ This project is protected under copyright © 2025 Anshuman Singh.
+#### Commercial use or redistribution without written consent is not permitted.
+
 ### Installation
 ```bash
 # Clone repository
@@ -117,3 +120,6 @@ Anshuman
 · Flask community
 · AI/ML libraries used
 · Template designers
+
+⚠️ This project is protected under copyright © 2025 Anshuman Singh.
+Commercial use or redistribution without written consent is not permitted.

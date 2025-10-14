@@ -1,3 +1,5 @@
+# © 2025 Anshuman Singh. All Rights Reserved.
+# Unauthorized use prohibited.
 # utils/advanced_ai_insights.py
 import json
 from datetime import datetime, timedelta
